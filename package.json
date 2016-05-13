@@ -1,0 +1,13 @@
+{
+  "name": "magictimes",
+  "version": "0.0.1",
+  "main": "src/js/app.min.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nikitaignatov/magictimes.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "admin-lte": "^2.3.3"
+  }
+}
