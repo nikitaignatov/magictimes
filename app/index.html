@@ -86,11 +86,14 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-xs-6">
+                    
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
                                 <h3 class="total-session-count">150</h3>
                                 <p>Total sessions</p>
+                                
+        <div id="poop"></div>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-comment"></i>
@@ -142,6 +145,7 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    
     <script src="../node_modules/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="../node_modules/admin-lte/plugins/fastclick/fastclick.js"></script>
     <script src="../node_modules/admin-lte/dist/js/app.min.js"></script>
@@ -149,10 +153,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signalr.js/2.2.0/jquery.signalR.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.1.5/masonry.pkgd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
     <script src="http://localhost:9000/signalr/hubs"></script>
-    <script src="js/app.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
+     <script src="js/browser.min.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+     
+
+    <script src="js/app.jsx"  type="text/babel"></script>
     <script id="session-template" type="x-tmpl-mustache">
         {{#items}}
         <div class="col-xs-12">
