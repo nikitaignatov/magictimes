@@ -1,7 +1,33 @@
 
+var PanelHeader = React.createClass({
+    render: function () {
+        var data = this.props.session.Value;
+        return (
+            <div className="box-header with-border">
+                <h3 className="box-title"><strong>{data.Name}</strong></h3>
+                <div className="box-tools pull-right">
+                    <span data-toggle="tooltip" title="3 New Messages" className="badge bg-green"></span>
+                    <button type="button" className="btn btn-box-tool" data-widget="collapse">
+                        <i className="fa fa-minus"></i>
+                    </button>
+                    <button type="button" className="btn btn-box-tool remove-session" data-widget="remove" onClick={this.deleteSession}>
+                        <i className="fa fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        );
+    },
+    deleteSession: function (e) {
+        this.props.deleteSession(this.props.session.Key)
+    }
+});
+
 var SessionDetails = React.createClass({
     render: function () {
         var data = this.props.session.Value;
+        data.Start = moment(data.Transaction.Started, moment.ISO_8601).fromNow()
+        data.End = moment(data.Transaction.Ended, moment.ISO_8601).fromNow()
+        data.Duration = moment.duration(data.Transaction.Duration).humanize()
         return (
             <table className="table text-muted table-striped table-hover">
                <tbody>
@@ -22,23 +48,12 @@ var SessionPanel = React.createClass({
         var session = this.props.session;
         return (
             <div className="box box-info">
-                <div className="box-header with-border">
-                    <h3 className="box-title"><strong>{session.Value.Name}</strong></h3>
-                    <div className="box-tools pull-right">
-                        <span data-toggle="tooltip" title="3 New Messages" className="badge bg-green"></span>
-                        <button type="button" className="btn btn-box-tool" data-widget="collapse">
-                            <i className="fa fa-minus"></i>
-                        </button>
-                        <button type="button" className="btn btn-box-tool remove-session" data-widget="remove">
-                            <i className="fa fa-times"></i>
-                        </button>
-                    </div>
-                </div>
+                <PanelHeader session={session} deleteSession={this.props.magic.server.remove} />
                 <div className="box-body">
                     <h3> {this.props.session.Value.Message}</h3>
                 </div>
-                <SessionForm magic={this.props.magic}/>
-                <SessionDetails session={this.props.session}  magic={this.props.magic} />
+                <SessionForm session={this.props.session} commentOn={this.props.magic.server.commentOn} />
+                <SessionDetails session={this.props.session} />
             </div>
         );
     }
@@ -47,7 +62,7 @@ var SessionPanel = React.createClass({
 var SessionPanelList = React.createClass({
     render: function () {
         console.log(this.props)
-   var  magic=   this.props.magic;
+        var magic = this.props.magic;
         var sessions = this.props.data.map(function (session) {
             return (
               <SessionPanel session={session} key={session.Key} magic={magic} />
@@ -64,31 +79,31 @@ var SessionPanelList = React.createClass({
 var SessionForm = React.createClass({
     render: function () {
         return (
-            <div>
+            <div className="box-body">
               <form onSubmit={this.onSubmit}>
                   <div className="form-group">
-                      <input type="number" ref="ticket" onChange={this.onChange} className="form-control"/>
+                      <input type="number" ref="ticket" className="form-control" placeholder="Tickt id" />
+                  </div>
+                  <div className="form-group">
+                      <textarea type="text" ref="message" className="form-control" placeholder="Message.." />
                   </div>
               </form>
             </div>
         );
     },
-    onChange: function () {
-        console.log('Changing ticket')
-    },
     onSubmit: function (e) {
         e.preventDefault()
+        var session = this.props.session;
         var ticket = this.refs.ticket.value.trim()
+        var message = this.refs.message.value.trim()
 
-        console.log('Submitting ticket', ticket)
-
-        this.props.magic.server.commentOn("b009a8cf-0aa6-4402-b254-6b56ee80674d", "wolla", "123123", 1)
+        this.props.commentOn(session.Value.Transaction.TransactionId, message, ticket, 1)
     }
 });
 
 var Sessions = React.createClass({
     getInitialState: function () {
-        return { data: [] ,magic: {} };
+        return { data: [], magic: {} };
     },
     update: function (data) {
         this.setState({ data: data.complete });
@@ -98,7 +113,7 @@ var Sessions = React.createClass({
 
         this.magic.client.update = this.update;
 
-        this.setState({ magic:this.magic });
+        this.setState({ magic: this.magic });
         $.connection.hub.url = "http://localhost:9000/signalr";
         $.connection.hub.start();
     },
@@ -109,15 +124,65 @@ var Sessions = React.createClass({
     render: function () {
         return (
             <div>
-                <SessionPanelList data={this.state.data} magic={this.state.magic}  />
-                <SessionForm magic={this.state.magic} />
+                <SessionPanelList data={this.state.data} magic={this.state.magic} />
             </div>
         );
     }
 });
 
+var Dashboard = React.createClass({
+    getInitialState: function () {
+        return { data: { new_sessions: [], ready_to_submit: [], complete: [] }, magic: {} };
+    },
+    update: function (data) {
+        this.setState({ data: data });
+    },
+    connectToHub: function () {
+        this.magic = $.connection.nfcHub;
+
+        this.magic.client.update = this.update;
+
+        this.setState({ magic: this.magic });
+        $.connection.hub.url = "http://localhost:9000/signalr";
+        $.connection.hub.start();
+    },
+    componentDidMount: function () {
+        var self = this;
+        this.connectToHub();
+    },
+    render: function () {
+        return (
+            <div className="row">
+                <div className="col-lg-4 col-sm-12">
+                    <div>
+                        <h3>Not processed sessions</h3>
+                    </div>
+                    <section className="row" id="missing-message">
+                            <SessionPanelList data={this.state.data.new_sessions} magic={this.state.magic} />
+                    </section>
+                </div>
+                <div className="col-lg-4 col-sm-12">
+                    <div>
+                        <h3>Ready to be submitted</h3>
+                    </div>
+                    <section className="row" id="missing-ticket">
+                            <SessionPanelList data={this.state.data.ready_to_submit} magic={this.state.magic} />
+                    </section>
+                </div>
+                <div className="col-lg-4 col-sm-12">
+                    <div>
+                        <h3>Submitted</h3>
+                    </div>
+                    <section clasName="row" id="complete">
+                            <SessionPanelList data={this.state.data.complete} magic={this.state.magic} />
+                    </section>
+                </div>
+            </div>
+        );
+    }
+});
 
 ReactDOM.render(
-  <Sessions />,
-      document.getElementById('missing-message')
+  <Dashboard />,
+      document.getElementById('dashboard')
 );
