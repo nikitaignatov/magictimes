@@ -28,11 +28,11 @@ module.exports = function (grunt) {
       core: {
         src: 'app/js/app.js'
       },
-      demo: {
-        src: 'app/js/demo.js'
-      },
       pages: {
         src: 'app/js/pages/*.js'
+      },
+      components: {
+        src: 'app/js/components/*.js'
       }
     }
   });

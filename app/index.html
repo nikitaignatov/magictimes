@@ -18,7 +18,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
         <header class="main-header">
-            <a href="index2.html" class="logo"> 
+            <a href="index2.html" class="logo">
                 <span class="logo-mini"><b>A</b>TT</span>
                 <span class="logo-lg"><b>Turbo</b>TIME</span>
             </a>
@@ -57,6 +57,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">TURBO NAVIGATION</li>
+                    <li id="import-users"></li>
                     <li class="treeview">
                         <a href="#">
                             <i class="fa fa-dashboard"></i> <span>Dashboard</span> <i class="fa fa-angle-left pull-right"></i>
@@ -86,14 +87,14 @@
                         </div>
                     </div>
                     <div class="col-lg-3 col-xs-6">
-                    
+
                         <!-- small box -->
                         <div class="small-box bg-aqua">
                             <div class="inner">
                                 <h3 class="total-session-count">150</h3>
                                 <p>Total sessions</p>
-                                
-     
+
+
                             </div>
                             <div class="icon">
                                 <i class="fa fa-comment"></i>
@@ -118,7 +119,7 @@
         </div>
         <footer class="main-footer">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.3.3
+                <b>Version</b> 0.0.1
             </div>
             <strong>GLHF</strong>
         </footer>
@@ -126,11 +127,10 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    
+
     <script src="../node_modules/admin-lte/plugins/slimScroll/jquery.slimscroll.min.js"></script>
     <script src="../node_modules/admin-lte/plugins/fastclick/fastclick.js"></script>
     <script src="../node_modules/admin-lte/dist/js/app.min.js"></script>
-    <script src="../node_modules/admin-lte/dist/js/demo.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.2.1/mustache.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/signalr.js/2.2.0/jquery.signalR.js"></script>
@@ -139,12 +139,14 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
-     <script src="js/browser.min.js"></script>
-  
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/2.4.0/ReactRouter.min.js"></script>
+    <script src="js/browser.min.js"></script>
 
-    <script src="js/app.jsx"  type="text/babel"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
+
+    <script src="js/components/session.jsx" type="text/babel"></script>
+    <script src="js/app.jsx" type="text/babel"></script>
+
     <script id="session-template" type="x-tmpl-mustache">
         {{#items}}
         <div class="col-xs-12">
@@ -196,34 +198,6 @@
                     </div>
                 </div>
                 {{/Value.IsValid}}
-            </div>
-        </div>
-        {{/items}}
-    </script>
-    <script id="complete-session-template" type="x-tmpl-mustache">
-        {{#items}}
-        <div class="col-xs-12">
-            <div data-id="{{Key}}" class="box {{#Value.IsValid}}box-success{{/Value.IsValid}}">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><strong>{{Value.Name}}</strong></h3>
-                    <div class="box-tools pull-right">
-                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-green"></span>
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="box-body">
-                    <h3> {{Value.Message}}</h3>
-                </div>
-                <table class="table text-muted table-striped table-hover">
-                    <tr><td>Duration</td><th>{{Value.Duration}}</th></tr>
-                    <tr><td>Started</td><td>{{Value.Start}}</td></tr>
-                    <tr><td>Ended</td><td>{{Value.End}}</td></tr>
-                    <tr><td>Ticket</td><td>{{Value.Ticket}}</td></tr>
-                    <tr><td>TimeEntryId</td><td>{{Value.TimeEntryId}}</td></tr>
-                    <tr><td>Tx</td><td>{{Value.Transaction.TransactionId}}</td></tr>
-                </table>
             </div>
         </div>
         {{/items}}

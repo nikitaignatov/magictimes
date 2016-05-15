@@ -1,4 +1,3 @@
-
 var PanelHeader = React.createClass({
     render: function () {
         var data = this.props.session.Value;
@@ -19,6 +18,33 @@ var PanelHeader = React.createClass({
     },
     deleteSession: function (e) {
         this.props.deleteSession(this.props.session.Key)
+    }
+});
+
+var User = React.createClass({
+    render: function () {
+        var data = this.props.user;
+        return (
+            <div className="box box-info">
+                <div className="box-body">
+                    <h3> {data.Name}</h3>
+                </div>
+            </div>
+        );
+    }
+});
+
+var UserList = React.createClass({
+    render: function () {
+        console.log(this.props.data)
+        var users = this.props.data.map(function (user) {
+            return (<User user={user} key={user.Username} />);
+        });
+        return (
+        <div className="col-xs-12">
+            {users}
+        </div>
+        );
     }
 });
 
@@ -59,6 +85,30 @@ var SessionPanel = React.createClass({
     }
 });
 
+var ImportUsers = React.createClass({
+    render: function () {
+        return (
+            <a href="#" onClick={this.importUsers}><i className="fa fa-circle-o text-red"></i> <span>Import users</span></a>
+        );
+    },
+    connectToHub: function () {
+        this.magic = $.connection.nfcHub;
+
+        this.magic.client.update = this.update;
+
+        this.setState({ magic: this.magic });
+        $.connection.hub.url = "http://localhost:9000/signalr";
+        $.connection.hub.start();
+    },
+    componentDidMount: function () {
+        var self = this;
+        this.connectToHub();
+    },
+    importUsers: function () {
+        this.magic.server.importUsers();
+    }
+});
+
 var SessionPanelList = React.createClass({
     render: function () {
         console.log(this.props)
@@ -69,25 +119,36 @@ var SessionPanelList = React.createClass({
           );
         });
         return (
-            <div className="col-xs-12">
-                {sessions}
-            </div>
+    <div className="col-xs-12">
+        {sessions}
+    </div>
         );
     }
 });
 
+
 var SessionForm = React.createClass({
     render: function () {
+        var items = []
+        if (this.props.session.Value.IsMissingTicket) {
+            items.push(
+                <div className="form-group">
+                    <input type="number" ref="ticket" className="form-control" placeholder="Tickt id" />
+                </div>
+            )
+        }
+        if (this.props.session.Value.IsMissingMessage) {
+            items.push(
+                <div className="form-group">
+                    <textarea type="text" ref="message" className="form-control" placeholder="Message.." />
+                </div>
+            )
+        }
         return (
             <div className="box-body">
-              <form onSubmit={this.onSubmit}>
-                  <div className="form-group">
-                      <input type="number" ref="ticket" className="form-control" placeholder="Tickt id" />
-                  </div>
-                  <div className="form-group">
-                      <textarea type="text" ref="message" className="form-control" placeholder="Message.." />
-                  </div>
-              </form>
+                <form onSubmit={this.onSubmit}>
+                    {items}
+                </form>
             </div>
         );
     },
@@ -132,7 +193,7 @@ var Sessions = React.createClass({
 
 var Dashboard = React.createClass({
     getInitialState: function () {
-        return { data: { new_sessions: [], ready_to_submit: [], complete: [] }, magic: {} };
+        return { data: { new_sessions: [], ready_to_submit: [], complete: [],users:[] }, magic: {} };
     },
     update: function (data) {
         this.setState({ data: data });
@@ -177,12 +238,35 @@ var Dashboard = React.createClass({
                             <SessionPanelList data={this.state.data.complete} magic={this.state.magic} />
                     </section>
                 </div>
+            <div> 
+                <UserList data={this.state.data.users}/>
+            </div>
             </div>
         );
     }
 });
 
+
+
+var Router = window.ReactRouter.Router
+var Route = window.ReactRouter.Route
+var Link = window.ReactRouter.Link
+var hashHistory = window.ReactRouter.hashHistory
+
 ReactDOM.render(
-  <Dashboard />,
+  <Router history={hashHistory}>
+    <Route path="/" component={Dashboard}></Route>
+    <Route path="/sessions" component={Dashboard}></Route>
+    <Route path="/settings" component={Dashboard}></Route>
+    <Route path="/notifications" component={Dashboard}></Route>
+    <Route path="/users" component={Dashboard}></Route>
+  </Router>,
       document.getElementById('dashboard')
+);
+
+
+// TODO create sidebar component
+ReactDOM.render(
+  <ImportUsers />,
+      document.getElementById('import-users')
 );
