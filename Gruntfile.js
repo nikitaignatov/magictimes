@@ -5,7 +5,7 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     watch: {
-      files: ["app/js/app.js"],
+      files: ["app/app.js"],
       tasks: ["uglify"]
     },
     // Uglify task info. Compress the js files.
@@ -16,7 +16,7 @@ module.exports = function (grunt) {
       },
       my_target: {
         files: {
-          'app/js/app.min.js': ['app/js/app.js']
+          'app/app.min.js': ['app/app.js']
         }
       }
     },
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         jshintrc: '.jshintrc'
       },
       core: {
-        src: 'app/js/app.js'
+        src: 'app/app.js'
       },
       pages: {
         src: 'app/js/pages/*.js'
