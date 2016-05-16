@@ -48,7 +48,7 @@
 
 	var React = __webpack_require__(1);
 	var Dashboard = __webpack_require__(2);
-	var UserList = __webpack_require__(13);
+	var UserList = __webpack_require__(15);
 
 	var Router = window.ReactRouter.Router;
 	var Route = window.ReactRouter.Route;
@@ -132,6 +132,7 @@
 
 	var React = __webpack_require__(1);
 	var SessionStore = __webpack_require__(3);
+	var SessionForm = __webpack_require__(13);
 
 	var PanelHeader = React.createClass({
 	    displayName: 'PanelHeader',
@@ -169,45 +170,6 @@
 	    },
 	    deleteSession: function deleteSession(e) {
 	        this.props.deleteSession(this.props.session.Key);
-	    }
-	});
-
-	var SessionForm = React.createClass({
-	    displayName: 'SessionForm',
-
-	    render: function render() {
-	        var items = [];
-	        if (this.props.session.Value.IsMissingTicket) {
-	            items.push(React.createElement(
-	                'div',
-	                { className: 'form-group', key: 'ticket' },
-	                React.createElement('input', { type: 'number', ref: 'ticket', className: 'form-control', placeholder: 'Tickt id' })
-	            ));
-	        }
-	        if (this.props.session.Value.IsMissingMessage) {
-	            items.push(React.createElement(
-	                'div',
-	                { className: 'form-group', key: 'message' },
-	                React.createElement('textarea', { type: 'text', ref: 'message', className: 'form-control', placeholder: 'Message..' })
-	            ));
-	        }
-	        return React.createElement(
-	            'div',
-	            { className: 'box-body' },
-	            React.createElement(
-	                'form',
-	                { onSubmit: this.onSubmit },
-	                items
-	            )
-	        );
-	    },
-	    onSubmit: function onSubmit(e) {
-	        e.preventDefault();
-	        var session = this.props.session;
-	        var ticket = this.refs.ticket.value.trim();
-	        var message = this.refs.message.value.trim();
-
-	        this.props.commentOn(session.Value.Transaction.TransactionId, message, ticket, 1);
 	    }
 	});
 
@@ -516,10 +478,10 @@
 	    var text;
 
 	    switch (action.actionType) {
-	        case SessionConstants.SESSION_UPDATE_MESSAGE:
+	        case SessionConstants.SESSION_UPDATE:
 	            text = action.text.trim();
 	            if (text !== '') {
-	                update(action.id, text, "232", 1);
+	                update(action.id, text, action.ticket, action.status);
 	                SessionStore.emitChange();
 	            }
 	            break;
@@ -1262,11 +1224,10 @@
 	var keyMirror = __webpack_require__(11);
 
 	module.exports = keyMirror({
-	    SESSION_LOAD_ALL: null,
 	    SESSION_START: null,
 	    SESSION_END: null,
-	    SESSION_UPDATE_MESSAGE: null,
-	    SESSION_SUBMITTED: null
+	    SESSION_UPDATE: null,
+	    SESSION_SUBMIT: null
 	});
 
 /***/ },
@@ -1424,7 +1385,101 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var User = __webpack_require__(14);
+	var SessionActions = __webpack_require__(14);
+
+	var SessionForm = React.createClass({
+	    displayName: 'SessionForm',
+
+	    render: function render() {
+	        var items = [];
+	        var session = this.props.session.Value;
+	        if (session.IsMissingTicket) {
+	            items.push(React.createElement(
+	                'div',
+	                { className: 'form-group', key: 'ticket' },
+	                React.createElement('input', { type: 'number', ref: 'ticket', className: 'form-control', placeholder: 'Tickt id' })
+	            ));
+	        } else {
+	            items.push(React.createElement('input', { type: 'hidden', ref: 'ticket', value: session.Ticket, key: 'ticket' }));
+	        }
+	        if (session.IsMissingMessage) {
+	            items.push(React.createElement(
+	                'div',
+	                { className: 'form-group', key: 'message' },
+	                React.createElement('textarea', { type: 'text', ref: 'message', className: 'form-control', placeholder: 'Message..' })
+	            ));
+	        } else {
+	            items.push(React.createElement('input', { type: 'hidden', ref: 'message', value: session.Message, key: 'message' }));
+	        }
+	        if (!session.IsValid) {
+	            items.push(React.createElement(
+	                'div',
+	                { className: 'box-footer', key: 'submit-button' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'text-right' },
+	                    React.createElement(
+	                        'button',
+	                        { type: 'button', className: 'btn btn-flat', onClick: this.onSubmit },
+	                        'Save'
+	                    )
+	                )
+	            ));
+	        }
+	        return React.createElement(
+	            'div',
+	            { className: 'box-body' },
+	            React.createElement(
+	                'form',
+	                { onSubmit: this.onSubmit },
+	                items
+	            )
+	        );
+	    },
+	    onSubmit: function onSubmit(e) {
+	        e.preventDefault();
+	        console.log('submitski');
+	        var session = this.props.session;
+	        var ticket = this.refs.ticket.value.trim();
+	        var message = this.refs.message.value.trim();
+	        SessionActions.update(session.Value.Transaction.TransactionId, message, ticket, 1);
+	    }
+	});
+
+	module.exports = SessionForm;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var AppDispatcher = __webpack_require__(4);
+	var SessionConstants = __webpack_require__(10);
+
+	var SessionActions = {
+
+	    update: function update(id, text, ticket, status) {
+	        AppDispatcher.dispatch({
+	            actionType: SessionConstants.SESSION_UPDATE,
+	            id: id,
+	            text: text,
+	            ticket: ticket,
+	            status: status
+	        });
+	    }
+	};
+
+	module.exports = SessionActions;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var User = __webpack_require__(16);
 
 	var UserList = React.createClass({
 	    displayName: 'UserList',
@@ -1463,7 +1518,7 @@
 	module.exports = UserList;
 
 /***/ },
-/* 14 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";

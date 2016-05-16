@@ -1,5 +1,6 @@
 var React = require('react');
 var SessionStore = require('../../stores/SessionStore');
+var SessionForm = require('./SessionForm');
 
 var PanelHeader = React.createClass({
     render: function () {
@@ -21,41 +22,6 @@ var PanelHeader = React.createClass({
     },
     deleteSession: function (e) {
         this.props.deleteSession(this.props.session.Key)
-    }
-});
-
-var SessionForm = React.createClass({
-    render: function () {
-        var items = []
-        if (this.props.session.Value.IsMissingTicket) {
-            items.push(
-                <div className="form-group" key={'ticket'}>
-                    <input type="number" ref="ticket" className="form-control" placeholder="Tickt id" />
-                </div>
-            )
-        }
-        if (this.props.session.Value.IsMissingMessage) {
-            items.push(
-                <div className="form-group" key={'message'}>
-                    <textarea type="text" ref="message" className="form-control" placeholder="Message.." />
-                </div>
-            )
-        }
-        return (
-            <div className="box-body">
-                <form onSubmit={this.onSubmit}>
-                    {items}
-                </form>
-            </div>
-        );
-    },
-    onSubmit: function (e) {
-        e.preventDefault()
-        var session = this.props.session;
-        var ticket = this.refs.ticket.value.trim()
-        var message = this.refs.message.value.trim()
-
-        this.props.commentOn(session.Value.Transaction.TransactionId, message, ticket, 1)
     }
 });
 
@@ -143,7 +109,7 @@ var Dashboard = React.createClass({
         this.setState({ data: data });
     },
     render: function () {
-        console.log('dash',this.state)
+        console.log('dash', this.state)
         return (
             <div className="row">
                 <div className="col-lg-4 col-sm-12">

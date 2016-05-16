@@ -53,10 +53,10 @@ Dispatcher.register(function (action) {
     var text;
 
     switch (action.actionType) {
-        case SessionConstants.SESSION_UPDATE_MESSAGE:
+        case SessionConstants.SESSION_UPDATE:
             text = action.text.trim();
             if (text !== '') {
-                update(action.id, text, "232", 1);
+                update(action.id, text, action.ticket, action.status);
                 SessionStore.emitChange();
             }
             break;

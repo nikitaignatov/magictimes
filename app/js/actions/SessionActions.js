@@ -3,20 +3,15 @@ var SessionConstants = require('../constants/SessionConstants');
 
 var SessionActions = {
 
-    updateMessage: function (id,text) {
+    update: function (id,text,ticket,status) {
         AppDispatcher.dispatch({
-            actionType: SessionConstants.SESSION_UPDATE_MESSAGE,
+            actionType: SessionConstants.SESSION_UPDATE,
             id:id,
-            text: text
+            text: text,
+            ticket: ticket,
+            status:status
         });
     },
-
-    loadAll: function () {
-        AppDispatcher.dispatch({
-            actionType: SessionConstants.SESSION_LOAD_ALL
-        });
-    },
-    
 };
 
 module.exports = SessionActions;
