@@ -32,6 +32,15 @@ var SessionForm = React.createClass({
                     </div>
                 </div>
             )
+        } else if (!session.IsSubmitted) {
+            
+            items.push(
+                <div className="box-footer" key={'submit-button'}>
+                    <div className="text-right">
+                        <button type="submit" className="btn btn-info btn-flat" onClick={this.onSubmitEntry}>Submit</button>
+                    </div>
+                </div>
+            )
         }
         return (
             <div className="box-body">
@@ -44,11 +53,16 @@ var SessionForm = React.createClass({
     },
     onSubmit: function (e) {
         e.preventDefault()
-        console.log('submitski')
         var session = this.props.session;
         var ticket = this.refs.ticket.value.trim()
         var message = this.refs.message.value.trim()
+
         SessionActions.update(session.Value.Transaction.TransactionId, message, ticket, 1)
+    },
+    onSubmitEntry: function (e) {
+        e.preventDefault()
+        var session = this.props.session;
+        SessionActions.submitEntry(session.Key)
     }
 });
 

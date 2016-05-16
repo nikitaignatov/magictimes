@@ -4,27 +4,32 @@ var EventEmitter = require('events').EventEmitter;
 var SessionConstants = require('../constants/SessionConstants');
 var assign = require('object-assign');
 
-
 var CHANGE_EVENT = 'change';
 
 var _sessions = { new_sessions: [], ready_to_submit: [], complete: [], users: [] };
 var _hub = {};
 
 function update(id, message, ticket, state) {
+    console.log('update', message, ticket, state)
     _hub.server.commentOn(id, message, ticket, state)
 }
 
+function submitEntry(id) {
+    console.log('submitTimeEntry', id)
+    _hub.server.submitTimeEntry(id)
+    SessionStore.emitChange()
+}
+
 function reload(data) {
+    console.log("reload session",data)
     _sessions = data;
     SessionStore.emitChange()
 }
 
-(function () {
-    _hub = $.connection.nfcHub;
+$(function() {
+    var _hub = $.connection.nfcHub;
     _hub.client.update = reload;
-    $.connection.hub.url = "http://localhost:9000/signalr";
-    $.connection.hub.start();
-})();
+});
 
 
 var SessionStore = assign({}, EventEmitter.prototype, {
@@ -50,15 +55,16 @@ var SessionStore = assign({}, EventEmitter.prototype, {
 });
 
 Dispatcher.register(function (action) {
-    var text;
 
     switch (action.actionType) {
         case SessionConstants.SESSION_UPDATE:
-            text = action.text.trim();
-            if (text !== '') {
-                update(action.id, text, action.ticket, action.status);
-                SessionStore.emitChange();
-            }
+            update(action.id, action.text, action.ticket, action.status);
+            SessionStore.emitChange();
+            break;
+
+        case SessionConstants.SESSION_SUBMIT:
+            submitEntry(action.id);
+            SessionStore.emitChange();
             break;
 
         default:

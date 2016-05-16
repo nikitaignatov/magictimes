@@ -85,7 +85,7 @@ var Sessions = React.createClass({
 });
 
 
-function getTodoState() {
+function geState() {
     return {
         data: SessionStore.getAll(),
         magic: SessionStore.getHub()
@@ -94,19 +94,16 @@ function getTodoState() {
 
 var Dashboard = React.createClass({
     getInitialState: function () {
-        return getTodoState();
+        return geState();
     },
     onChange: function () {
-        this.setState(getTodoState());
+        this.setState(geState());
     },
     componentDidMount: function () {
         SessionStore.addChangeListener(this.onChange);
     },
     componentWillUnmount: function () {
         SessionStore.removeChangeListener(this.onChange);
-    },
-    update: function (data) {
-        this.setState({ data: data });
     },
     render: function () {
         console.log('dash', this.state)

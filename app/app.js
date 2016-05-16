@@ -72,18 +72,6 @@
 	            )
 	        );
 	    },
-	    connectToHub: function connectToHub() {
-	        this.magic = $.connection.nfcHub;
-	        this.magic.client.update = this.update;
-
-	        this.setState({ magic: this.magic });
-	        $.connection.hub.url = "http://localhost:9000/signalr";
-	        $.connection.hub.start();
-	    },
-	    componentDidMount: function componentDidMount() {
-	        var self = this;
-	        this.connectToHub();
-	    },
 	    importUsers: function importUsers() {
 	        this.magic.server.importUsers();
 	    }
@@ -329,7 +317,7 @@
 	    }
 	});
 
-	function getTodoState() {
+	function geState() {
 	    return {
 	        data: SessionStore.getAll(),
 	        magic: SessionStore.getHub()
@@ -340,19 +328,16 @@
 	    displayName: 'Dashboard',
 
 	    getInitialState: function getInitialState() {
-	        return getTodoState();
+	        return geState();
 	    },
 	    onChange: function onChange() {
-	        this.setState(getTodoState());
+	        this.setState(geState());
 	    },
 	    componentDidMount: function componentDidMount() {
 	        SessionStore.addChangeListener(this.onChange);
 	    },
 	    componentWillUnmount: function componentWillUnmount() {
 	        SessionStore.removeChangeListener(this.onChange);
-	    },
-	    update: function update(data) {
-	        this.setState({ data: data });
 	    },
 	    render: function render() {
 	        console.log('dash', this.state);
@@ -437,20 +422,26 @@
 	var _hub = {};
 
 	function update(id, message, ticket, state) {
+	    console.log('update', message, ticket, state);
 	    _hub.server.commentOn(id, message, ticket, state);
 	}
 
+	function submitEntry(id) {
+	    console.log('submitTimeEntry', id);
+	    _hub.server.submitTimeEntry(id);
+	    SessionStore.emitChange();
+	}
+
 	function reload(data) {
+	    console.log("reload session", data);
 	    _sessions = data;
 	    SessionStore.emitChange();
 	}
 
-	(function () {
-	    _hub = $.connection.nfcHub;
+	$(function () {
+	    var _hub = $.connection.nfcHub;
 	    _hub.client.update = reload;
-	    $.connection.hub.url = "http://localhost:9000/signalr";
-	    $.connection.hub.start();
-	})();
+	});
 
 	var SessionStore = assign({}, EventEmitter.prototype, {
 
@@ -475,15 +466,16 @@
 	});
 
 	Dispatcher.register(function (action) {
-	    var text;
 
 	    switch (action.actionType) {
 	        case SessionConstants.SESSION_UPDATE:
-	            text = action.text.trim();
-	            if (text !== '') {
-	                update(action.id, text, action.ticket, action.status);
-	                SessionStore.emitChange();
-	            }
+	            update(action.id, action.text, action.ticket, action.status);
+	            SessionStore.emitChange();
+	            break;
+
+	        case SessionConstants.SESSION_SUBMIT:
+	            submitEntry(action.id);
+	            SessionStore.emitChange();
 	            break;
 
 	        default:
@@ -1224,6 +1216,7 @@
 	var keyMirror = __webpack_require__(11);
 
 	module.exports = keyMirror({
+	    SESSIONS_UPDATED: null,
 	    SESSION_START: null,
 	    SESSION_END: null,
 	    SESSION_UPDATE: null,
@@ -1425,6 +1418,21 @@
 	                    )
 	                )
 	            ));
+	        } else if (!session.IsSubmitted) {
+
+	            items.push(React.createElement(
+	                'div',
+	                { className: 'box-footer', key: 'submit-button' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'text-right' },
+	                    React.createElement(
+	                        'button',
+	                        { type: 'submit', className: 'btn btn-info btn-flat', onClick: this.onSubmitEntry },
+	                        'Submit'
+	                    )
+	                )
+	            ));
 	        }
 	        return React.createElement(
 	            'div',
@@ -1438,11 +1446,16 @@
 	    },
 	    onSubmit: function onSubmit(e) {
 	        e.preventDefault();
-	        console.log('submitski');
 	        var session = this.props.session;
 	        var ticket = this.refs.ticket.value.trim();
 	        var message = this.refs.message.value.trim();
+
 	        SessionActions.update(session.Value.Transaction.TransactionId, message, ticket, 1);
+	    },
+	    onSubmitEntry: function onSubmitEntry(e) {
+	        e.preventDefault();
+	        var session = this.props.session;
+	        SessionActions.submitEntry(session.Key);
 	    }
 	});
 
@@ -1458,7 +1471,6 @@
 	var SessionConstants = __webpack_require__(10);
 
 	var SessionActions = {
-
 	    update: function update(id, text, ticket, status) {
 	        AppDispatcher.dispatch({
 	            actionType: SessionConstants.SESSION_UPDATE,
@@ -1466,6 +1478,12 @@
 	            text: text,
 	            ticket: ticket,
 	            status: status
+	        });
+	    },
+	    submitEntry: function submitEntry(id) {
+	        AppDispatcher.dispatch({
+	            actionType: SessionConstants.SESSION_SUBMIT,
+	            id: id
 	        });
 	    }
 	};
@@ -1479,27 +1497,31 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var UserStore = __webpack_require__(17);
 	var User = __webpack_require__(16);
+
+	function geState() {
+	    return {
+	        data: UserStore.getAll()
+	    };
+	}
 
 	var UserList = React.createClass({
 	    displayName: 'UserList',
 
 	    getInitialState: function getInitialState() {
-	        return { data: { new_sessions: [], ready_to_submit: [], complete: [], users: [] }, magic: {} };
+	        console.log('init');
+	        return geState();
 	    },
-	    update: function update(data) {
-	        this.setState({ data: data });
-	    },
-	    connectToHub: function connectToHub() {
-	        this.magic = $.connection.nfcHub;
-	        this.magic.client.update = this.update;
-	        this.setState({ magic: this.magic });
-	        $.connection.hub.url = "http://localhost:9000/signalr";
-	        $.connection.hub.start();
+	    onChange: function onChange() {
+	        console.log('change');
+	        this.setState(geState());
 	    },
 	    componentDidMount: function componentDidMount() {
-	        var self = this;
-	        this.connectToHub();
+	        UserStore.addChangeListener(this.onChange);
+	    },
+	    componentWillUnmount: function componentWillUnmount() {
+	        UserStore.removeChangeListener(this.onChange);
 	    },
 	    render: function render() {
 	        console.log('users');
@@ -1507,6 +1529,8 @@
 	        var users = this.state.data.users.map(function (user) {
 	            return React.createElement(User, { user: user, key: user.Username });
 	        });
+	        console.log('users 2');
+
 	        return React.createElement(
 	            'div',
 	            { className: 'col-xs-12' },
@@ -1548,6 +1572,86 @@
 	});
 
 	module.exports = User;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var Dispatcher = __webpack_require__(4);
+	var EventEmitter = __webpack_require__(9).EventEmitter;
+	var UserConstants = __webpack_require__(18);
+	var assign = __webpack_require__(12);
+
+	var CHANGE_EVENT = 'change';
+
+	var _users = { users: [] };
+	function assignCard(id, user) {
+	    console.log('assign card', id, user);
+	    //_hub.server.assignCard(id, user)
+	    UserStore.emitChange();
+	}
+	function reload(data) {
+	    console.log('reload user', data.users);
+	    _users.users = data.users;
+	    UserStore.emitChange();
+	}
+
+	$(function () {
+	    var _hub = $.connection.nfcHub;
+	    _hub.client.update = reload;
+	});
+
+	var UserStore = assign({}, EventEmitter.prototype, {
+
+	    getAll: function getAll() {
+	        console.log('get all', _users);
+	        return _users;
+	    },
+
+	    emitChange: function emitChange() {
+	        this.emit(CHANGE_EVENT);
+	    },
+
+	    addChangeListener: function addChangeListener(callback) {
+	        this.on(CHANGE_EVENT, callback);
+	    },
+
+	    removeChangeListener: function removeChangeListener(callback) {
+	        this.removeListener(CHANGE_EVENT, callback);
+	    }
+	});
+
+	Dispatcher.register(function (action) {
+
+	    switch (action.actionType) {
+	        case UserConstants.USER_ASSIGN_CARD:
+	            assignCard(action.id, action.user);
+	            UserStore.emitChange();
+	            break;
+
+	        default:
+	        // no op
+	    }
+	});
+
+	module.exports = UserStore;
+
+/***/ },
+/* 18 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var keyMirror = __webpack_require__(11);
+
+	module.exports = keyMirror({
+	    USER_IMPORT: null,
+	    USER_UPDATE: null,
+	    USER_ASSIGN_CARD: null,
+	    USER_REMOVE_CARD: null
+	});
 
 /***/ }
 /******/ ]);
