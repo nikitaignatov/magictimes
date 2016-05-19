@@ -2,19 +2,19 @@ import repo from '../api/repo'
 import * as types from '../constants/ActionTypes'
 
 function recieveSessions(sessions) {
-    return {
-        type: types.RECIEVE_SESSIONS,
-        sessions: sessions
-    }
+  return {
+    type: types.RECIEVE_SESSIONS,
+    sessions: sessions
+  }
 }
 
 export function getAllSessions() {
-    console.log('recieve sessions')
-    return dispatch => {
-      repo.getSessions(sessions => {
-        dispatch(recieveSessions(sessions))
-      })
-    }
+  console.log('recieve sessions')
+  return dispatch => {
+    repo.getSessions(sessions => {
+      dispatch(recieveSessions(sessions))
+    })
+  }
 }
 
 function deleteSessionUnsafe(id) {
@@ -26,19 +26,25 @@ function deleteSessionUnsafe(id) {
 
 export function deleteSession(id) {
   return (dispatch, getState) => {
-    repo.remove(id,(e)=>{console.log('removed',e)})
-      dispatch(deleteSessionUnsafe(id))
+    repo.remove(id, (e) => {
+      console.log('removed', e)
+    })
+    dispatch(deleteSessionUnsafe(id))
   }
 }
 
 export function updateSession(data) {
   return (dispatch, getState) => {
-    repo.update(data,(e)=>{console.log('removed',e)})
+    repo.update(data, (e) => {
+      console.log('removed', e)
+    })
   }
 }
 
 export function submitTime(id) {
   return (dispatch, getState) => {
-    repo.submitTime(id,(e)=>{console.log('removed',e)})
+    repo.submitTime(id, (e) => {
+      console.log('removed', e)
+    })
   }
 }

@@ -7,18 +7,23 @@ import SessionPanelList from '../components/sessions/SessionPanelList'
 class SessionsContainer extends Component {
   render() {
     const { sessions, deleteSession,updateSession,submitTime } = this.props
-    console.log('asdasd',sessions)
+    const data = [
+      { title:'Not processed sessions',  sessions:sessions.new_sessions},
+      { title:'Ready to submit',         sessions:sessions.ready_to_submit},
+      { title:'Complete',                sessions:sessions.complete},
+    ]
     return (
       <div className="row">
-        <div className="col-xs-4">
-          <SessionPanelList title={'Not processed sessions'} sessions={sessions.new_sessions} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} onSubmitSessionClicked={submitTime} />
-        </div>
-        <div className="col-xs-4">
-          <SessionPanelList title={'ready to submit'} sessions={sessions.ready_to_submit} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} onSubmitSessionClicked={submitTime}/>
-        </div>
-        <div className="col-xs-4">
-          <SessionPanelList title={'Completed'} sessions={sessions.complete} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} onSubmitSessionClicked={submitTime}/>
-        </div>
+        {data.map(item =>
+          <div className="col-xs-4">
+            <SessionPanelList
+              title={item.title}
+              sessions={item.sessions}
+              onSessionDeleted={deleteSession}
+              onSaveSessionClicked={updateSession}
+              onSubmitSessionClicked={submitTime} />
+          </div>
+        )}
       </div>
     )
   }
