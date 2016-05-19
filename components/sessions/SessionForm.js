@@ -1,11 +1,10 @@
-var React = require('react');
-var SessionActions = require('../../actions/SessionActions');
+import React, { Component,PropTypes } from 'react'
 
-
-var SessionForm = React.createClass({
-    render: function () {
+export default class SessionForm extends Component {
+    render () {
+        const { onSaveSessionClicked, onSubmitSessionClicked } = this.props
+        const session = this.props.session.Value
         var items = []
-        var session = this.props.session.Value;
         if (session.IsMissingTicket) {
             items.push(
                 <div className="form-group" key={'ticket'}>
@@ -28,42 +27,43 @@ var SessionForm = React.createClass({
             items.push(
                 <div className="box-footer" key={'submit-button'}>
                     <div className="text-right">
-                        <button type="button" className="btn btn-flat" onClick={this.onSubmit}>Save</button>
+                        <button type="button" className="btn btn-flat" onClick={onSaveSessionClicked}>Save</button>
                     </div>
                 </div>
             )
         } else if (!session.IsSubmitted) {
-            
+
             items.push(
                 <div className="box-footer" key={'submit-button'}>
                     <div className="text-right">
-                        <button type="submit" className="btn btn-info btn-flat" onClick={this.onSubmitEntry}>Submit</button>
+                        <button type="submit" className="btn btn-info btn-flat" onClick={onSubmitSessionClicked}>Submit</button>
                     </div>
                 </div>
             )
         }
         return (
             <div className="box-body">
-                <form onSubmit={this.onSubmit}>
-                    {items}
-
-                </form>
+                <form>{items}</form>
             </div>
         );
-    },
-    onSubmit: function (e) {
+    }
+    onSubmit (e) {
         e.preventDefault()
         var session = this.props.session;
         var ticket = this.refs.ticket.value.trim()
         var message = this.refs.message.value.trim()
 
         SessionActions.update(session.Value.Transaction.TransactionId, message, ticket, 1)
-    },
-    onSubmitEntry: function (e) {
+    }
+    onSubmitEntry (e) {
         e.preventDefault()
         var session = this.props.session;
         SessionActions.submitEntry(session.Key)
     }
-});
+}
 
-module.exports = SessionForm;
+SessionForm.propTypes = {
+  session: PropTypes.object,
+  onSaveSessionClicked: PropTypes.func,
+  onSubmitSessionClicked: PropTypes.func
+}

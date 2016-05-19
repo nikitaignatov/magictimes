@@ -124,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <div id="dashboard"></div>
+                <div id="app"></div>
             </div>
         </div>
         <footer class="main-footer">
@@ -147,66 +147,6 @@
     <script src="http://localhost:9000/signalr/hubs"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.0.2/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flux/2.1.1/Flux.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router/2.4.0/ReactRouter.min.js"></script>
-    <script src="js/browser.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.5/marked.min.js"></script>
-
-    <script src="app.js" type="text/babel"></script>
-
-    <script id="session-template" type="x-tmpl-mustache">
-        {{#items}}
-        <div class="col-xs-12">
-            <div data-id="{{Key}}" class="box {{#Value.IsValid}}box-info{{/Value.IsValid}}">
-                <div class="box-header with-border">
-                    <h3 class="box-title"><strong>{{Value.Name}}</strong></h3>
-                    <div class="box-tools pull-right">
-                        <span data-toggle="tooltip" title="3 New Messages" class="badge bg-green"></span>
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-box-tool remove-session" data-widget="remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                {{^Value.IsMissingMessage}}
-                <div class="box-body">
-                    <h3 style="white-space: pre"> {{Value.Message}}</h3>
-                </div>
-                {{/Value.IsMissingMessage}}
-                <table class="table text-muted table-striped table-hover">
-                    <tr><td>Duration</td><th>{{Value.Duration}}</th></tr>
-                    <tr><td>Started</td><td>{{Value.Start}}</td></tr>
-                    <tr><td>Ended</td><td>{{Value.End}}</td></tr>
-                    {{^Value.IsMissingTicket}}
-                    <tr><td>Ticket</td><td>{{Value.Ticket}}</td></tr>
-                    {{/Value.IsMissingTicket}}
-                    <tr><td>Tx</td><td>{{Value.Transaction.TransactionId}}</td></tr>
-                </table>
-                {{^Value.IsValid}}
-
-                <div class="box-body">
-                    {{#Value.IsMissingMessage}}
-                    <textarea type="text" name="message" placeholder="Describe the key topics.." class="form-control input-lg"></textarea><br />
-                    {{/Value.IsMissingMessage}}
-                    {{#Value.IsMissingTicket}}
-                    <input type="text" name="ticket" placeholder="Ticket id.." class="form-control input-lg"><br />
-                    {{/Value.IsMissingTicket}}
-                    <div class="box-footer session-description">
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-flat">Save</button>
-                        </div>
-                    </div>
-                </div>
-                {{/Value.IsValid}}
-                {{#Value.IsValid}}
-                
-                {{/Value.IsValid}}
-            </div>
-        </div>
-        {{/items}}
-    </script>
+    <script src="/static/bundle.js"></script>
 </body>
 </html>

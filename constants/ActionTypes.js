@@ -1,0 +1,10 @@
+export const SESSION_DELETE = 'SESSION_DELETE'
+﻿export const SESSION_UPDATE = 'SESSION_UPDATE'
+export const SESSION_SUBMIT_TIME = 'SESSION_SUBMIT_TIME'
+export const USERS_IMPORT = 'USERS_IMPORT'
+export const RECIEVE_SESSIONS = 'RECIEVE_SESSIONS'
+    //
+    // USER_IMPORT: null,
+    // USER_UPDATE: null,
+    // USER_ASSIGN_CARD: null,
+    // USER_REMOVE_CARD: null,
