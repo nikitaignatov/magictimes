@@ -1,25 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {  deleteSession } from '../actions'
+import {  deleteSession,updateSession } from '../actions'
 import {  getNew,getCompleted } from '../reducers/sessions'
 import SessionPanelList from '../components/sessions/SessionPanelList'
 
 class SessionsContainer extends Component {
   render() {
-    const { completed,new_sessions, deleteSession } = this.props
+    const { completed,new_sessions, deleteSession,updateSession } = this.props
     return (
       <div className="row">
         <div className="col-xs-6">
-          <div>
-              <h3>Not processed sessions</h3>
-          </div>
-          <SessionPanelList sessions={new_sessions} onSessionDeleted={deleteSession} />
+          <SessionPanelList title={'Not processed sessions'} sessions={new_sessions} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession}  />
         </div>
         <div className="col-xs-6">
-          <div>
-              <h3>Completed</h3>
-          </div>
-          <SessionPanelList sessions={completed} onSessionDeleted={deleteSession}  />
+          <SessionPanelList title={'Completed'} sessions={completed} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} />
         </div>
       </div>
     )
@@ -28,8 +22,7 @@ class SessionsContainer extends Component {
 
 SessionsContainer.propTypes = {
   completed: PropTypes.array.isRequired,
-  new_sessions: PropTypes.array.isRequired,
-  onSessionDeleted: PropTypes.func
+  new_sessions: PropTypes.array.isRequired
 }
 
 function mapStateToProps(state) {
@@ -41,5 +34,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  { deleteSession }
+  { deleteSession,updateSession }
 )(SessionsContainer)

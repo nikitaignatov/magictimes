@@ -27,16 +27,23 @@ export default class SessionForm extends Component {
             items.push(
                 <div className="box-footer" key={'submit-button'}>
                     <div className="text-right">
-                        <button type="button" className="btn btn-flat" onClick={onSaveSessionClicked}>Save</button>
+                        <button type="button" className="btn btn-flat" onClick={(e)=>{
+                          var data = {
+                            id : this.props.session.Key,
+                            message:this.refs.message.value,
+                            ticket:this.refs.ticket.value,
+                            type:1
+                          }
+                          onSaveSessionClicked(data)
+                          }}>Save</button>
                     </div>
                 </div>
             )
         } else if (!session.IsSubmitted) {
-
             items.push(
                 <div className="box-footer" key={'submit-button'}>
                     <div className="text-right">
-                        <button type="submit" className="btn btn-info btn-flat" onClick={onSubmitSessionClicked}>Submit</button>
+                        <button type="submit" className="btn btn-info btn-flat" onClick={(e)=> onSubmitSessionClicked(this.props.session.Key)}>Submit</button>
                     </div>
                 </div>
             )
@@ -46,19 +53,6 @@ export default class SessionForm extends Component {
                 <form>{items}</form>
             </div>
         );
-    }
-    onSubmit (e) {
-        e.preventDefault()
-        var session = this.props.session;
-        var ticket = this.refs.ticket.value.trim()
-        var message = this.refs.message.value.trim()
-
-        SessionActions.update(session.Value.Transaction.TransactionId, message, ticket, 1)
-    }
-    onSubmitEntry (e) {
-        e.preventDefault()
-        var session = this.props.session;
-        SessionActions.submitEntry(session.Key)
     }
 }
 

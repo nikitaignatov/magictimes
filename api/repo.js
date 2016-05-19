@@ -17,7 +17,10 @@ export default {
       call(data)
     })
   },
-    remove(id,call) {
-      proxy.invoke('remove', id).done((e)=> call(e));
-    }
+  update(data,call) {
+    proxy.invoke('commentOn', data.id, data.message, data.ticket, data.type).done((e)=> call(e));
+  },
+  remove(id,call) {
+    proxy.invoke('remove', id).done((e)=> call(e));
+  }
 }

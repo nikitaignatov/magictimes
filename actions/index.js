@@ -30,3 +30,9 @@ export function deleteSession(id) {
       dispatch(deleteSessionUnsafe(id))
   }
 }
+
+export function updateSession(data) {
+  return (dispatch, getState) => {
+    repo.update(data,(e)=>{console.log('removed',e)})
+  }
+}
