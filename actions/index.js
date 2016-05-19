@@ -26,6 +26,7 @@ function deleteSessionUnsafe(id) {
 
 export function deleteSession(id) {
   return (dispatch, getState) => {
+    repo.remove(id,(e)=>{console.log('removed',e)})
       dispatch(deleteSessionUnsafe(id))
   }
 }

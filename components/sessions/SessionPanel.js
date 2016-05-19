@@ -28,5 +28,5 @@ SessionPanel.propTypes = {
   session: PropTypes.object,
   onSaveSessionClicked: PropTypes.func,
   onSubmitSessionClicked: PropTypes.func,
-  onSessionDeleted: PropTypes.func
+  onSessionDeleted: PropTypes.func.isRequired
 }

@@ -6,20 +6,20 @@ import SessionPanelList from '../components/sessions/SessionPanelList'
 
 class SessionsContainer extends Component {
   render() {
-    const { completed,new_sessions, onSessionDeleted } = this.props
+    const { completed,new_sessions, deleteSession } = this.props
     return (
       <div className="row">
         <div className="col-xs-6">
           <div>
               <h3>Not processed sessions</h3>
           </div>
-          <SessionPanelList sessions={new_sessions} />
+          <SessionPanelList sessions={new_sessions} onSessionDeleted={deleteSession} />
         </div>
         <div className="col-xs-6">
           <div>
               <h3>Completed</h3>
           </div>
-          <SessionPanelList sessions={completed} />
+          <SessionPanelList sessions={completed} onSessionDeleted={deleteSession}  />
         </div>
       </div>
     )

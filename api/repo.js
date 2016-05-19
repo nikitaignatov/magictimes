@@ -16,5 +16,8 @@ export default {
       console.log('update',data)
       call(data)
     })
-  }
+  },
+    remove(id,call) {
+      proxy.invoke('remove', id).done((e)=> call(e));
+    }
 }
