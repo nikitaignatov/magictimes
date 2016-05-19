@@ -43,7 +43,7 @@ export default class SessionForm extends Component {
             items.push(
                 <div className="box-footer" key={'submit-button'}>
                     <div className="text-right">
-                        <button type="submit" className="btn btn-info btn-flat" onClick={(e)=> onSubmitSessionClicked(this.props.session.Key)}>Submit</button>
+                        <button type="button" className="btn btn-info btn-flat" onClick={(e)=> onSubmitSessionClicked(this.props.session.Key)}>Submit</button>
                     </div>
                 </div>
             )

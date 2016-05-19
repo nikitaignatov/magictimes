@@ -3,7 +3,7 @@ import SessionPanel from './SessionPanel'
 
 export default class SessionPanelList extends Component {
     render() {
-      const { title, onSessionDeleted,onSaveSessionClicked} = this.props
+      const { title, onSessionDeleted,onSaveSessionClicked,onSubmitSessionClicked } = this.props
       return (
         <div>
           <div>
@@ -14,6 +14,7 @@ export default class SessionPanelList extends Component {
                         session={session}
                         onSessionDeleted={onSessionDeleted}
                         onSaveSessionClicked={onSaveSessionClicked}
+                        onSubmitSessionClicked={onSubmitSessionClicked}
                         key={session.Key} />)}
         </div>
       )
@@ -23,5 +24,6 @@ export default class SessionPanelList extends Component {
 SessionPanelList.propTypes = {
   sessions: PropTypes.array.isRequired,
   onSaveSessionClicked: PropTypes.func.isRequired,
+  onSubmitSessionClicked: PropTypes.func.isRequired,
   onSessionDeleted: PropTypes.func.isRequired
 }

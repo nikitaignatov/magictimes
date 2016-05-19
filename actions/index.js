@@ -36,3 +36,9 @@ export function updateSession(data) {
     repo.update(data,(e)=>{console.log('removed',e)})
   }
 }
+
+export function submitTime(id) {
+  return (dispatch, getState) => {
+    repo.submitTime(id,(e)=>{console.log('removed',e)})
+  }
+}

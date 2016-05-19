@@ -27,6 +27,6 @@ export default class SessionPanel extends Component {
 SessionPanel.propTypes = {
   session: PropTypes.object,
   onSaveSessionClicked: PropTypes.func,
-  onSubmitSessionClicked: PropTypes.func,
+  onSubmitSessionClicked: PropTypes.func.isRequired,
   onSessionDeleted: PropTypes.func.isRequired
 }

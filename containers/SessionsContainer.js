@@ -1,19 +1,23 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {  deleteSession,updateSession } from '../actions'
-import {  getNew,getCompleted } from '../reducers/sessions'
+import {  deleteSession,updateSession,submitTime } from '../actions'
+import {  getSessions } from '../reducers/sessions'
 import SessionPanelList from '../components/sessions/SessionPanelList'
 
 class SessionsContainer extends Component {
   render() {
-    const { completed,new_sessions, deleteSession,updateSession } = this.props
+    const { sessions, deleteSession,updateSession,submitTime } = this.props
+    console.log('asdasd',sessions)
     return (
       <div className="row">
-        <div className="col-xs-6">
-          <SessionPanelList title={'Not processed sessions'} sessions={new_sessions} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession}  />
+        <div className="col-xs-4">
+          <SessionPanelList title={'Not processed sessions'} sessions={sessions.new_sessions} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} onSubmitSessionClicked={submitTime} />
         </div>
-        <div className="col-xs-6">
-          <SessionPanelList title={'Completed'} sessions={completed} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} />
+        <div className="col-xs-4">
+          <SessionPanelList title={'ready to submit'} sessions={sessions.ready_to_submit} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} onSubmitSessionClicked={submitTime}/>
+        </div>
+        <div className="col-xs-4">
+          <SessionPanelList title={'Completed'} sessions={sessions.complete} onSessionDeleted={deleteSession} onSaveSessionClicked={updateSession} onSubmitSessionClicked={submitTime}/>
         </div>
       </div>
     )
@@ -21,18 +25,16 @@ class SessionsContainer extends Component {
 }
 
 SessionsContainer.propTypes = {
-  completed: PropTypes.array.isRequired,
-  new_sessions: PropTypes.array.isRequired
+  sessions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
   return {
-    completed: getCompleted(state),
-    new_sessions:getNew(state)
+    sessions: getSessions(state)
   }
 }
 
 export default connect(
   mapStateToProps,
-  { deleteSession,updateSession }
+  { deleteSession, updateSession ,submitTime }
 )(SessionsContainer)
