@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux'
 ﻿import { RECIEVE_SESSIONS } from '../constants/ActionTypes'
+
 const initialSession= {complete:[],new_sessions:[],ready_to_submit:[]}
+
 function sessions(state = initialSession , action) {
   switch (action.type) {
     case RECIEVE_SESSIONS:

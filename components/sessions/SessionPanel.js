@@ -5,11 +5,11 @@ import SessionForm from './SessionForm'
 
 export default class SessionPanel extends Component {
     render() {
-        const { onSaveSessionClicked, onSubmitSessionClicked, onSessionDeleted } = this.props
+        const { onSaveSessionClicked, onSubmitSessionClicked, onSessionDeleted,type } = this.props
         var session = this.props.session
         return (
-          <div className="box box-info">
-                <PanelHeader session={session}  onSessionDeleted={onSessionDeleted} />
+          <div className={'box box-' + type}>
+                <PanelHeader session={session} onSessionDeleted={onSessionDeleted} />
                 <div className="box-body">
                     <h3> {session.Value.Message}</h3>
                 </div>

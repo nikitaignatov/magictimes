@@ -8,9 +8,9 @@ class SessionsContainer extends Component {
   render() {
     const { sessions, deleteSession,updateSession,submitTime } = this.props
     const data = [
-      { title:'Not processed sessions',  sessions:sessions.new_sessions},
-      { title:'Ready to submit',         sessions:sessions.ready_to_submit},
-      { title:'Complete',                sessions:sessions.complete},
+      { type:'warning', title:'Not processed sessions',  sessions:sessions.new_sessions},
+      { type:'info', title:'Ready to submit',         sessions:sessions.ready_to_submit},
+      { type:'success', title:'Complete',                sessions:sessions.complete},
     ]
     return (
       <div className="row">
@@ -18,6 +18,7 @@ class SessionsContainer extends Component {
           <div className="col-xs-4">
             <SessionPanelList
               title={item.title}
+              type={item.type}
               sessions={item.sessions}
               onSessionDeleted={deleteSession}
               onSaveSessionClicked={updateSession}
