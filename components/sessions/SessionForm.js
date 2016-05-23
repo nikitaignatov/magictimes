@@ -1,8 +1,10 @@
 import React, { Component,PropTypes } from 'react'
+import { connect } from 'react-redux'
+import {  updateSession, submitTime } from '../../actions'
 
 export default class SessionForm extends Component {
     render () {
-        const { onSaveSessionClicked, onSubmitSessionClicked } = this.props
+        const {  updateSession, submitTime } = this.props
         const session = this.props.session.Value
         var items = []
         if (session.IsMissingTicket) {
@@ -34,7 +36,7 @@ export default class SessionForm extends Component {
                             ticket:this.refs.ticket.value,
                             type:1
                           }
-                          onSaveSessionClicked(data)
+                          updateSession(data)
                           }}>Save</button>
                     </div>
                 </div>
@@ -43,7 +45,7 @@ export default class SessionForm extends Component {
             items.push(
                 <div className="box-footer" key={'submit-button'}>
                     <div className="text-right">
-                        <button type="button" className="btn btn-info btn-flat" onClick={(e)=> onSubmitSessionClicked(this.props.session.Key)}>Submit</button>
+                        <button type="button" className="btn btn-info btn-flat" onClick={(e)=> submitTime(this.props.session.Key)}>Submit</button>
                     </div>
                 </div>
             )
@@ -58,6 +60,9 @@ export default class SessionForm extends Component {
 
 SessionForm.propTypes = {
   session: PropTypes.object,
-  onSaveSessionClicked: PropTypes.func,
-  onSubmitSessionClicked: PropTypes.func
 }
+
+
+export default connect(null,
+  { updateSession, submitTime }
+)(SessionForm)

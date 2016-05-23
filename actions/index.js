@@ -7,6 +7,12 @@ function recieveSessions(sessions) {
         sessions: sessions
     }
 }
+function recieveSettings(settings) {
+    return {
+        type: types.RECIEVE_SETTINGS,
+        settings: settings
+    }
+}
 
 function deleteSessionUnsafe(id) {
   return {
@@ -23,7 +29,14 @@ function updateSessionUnsafe(id) {
 }
 
 export function getAllSessions() {
-    console.log('recieve sessions')
+    return dispatch => {
+      repo.getSettings(settings => {
+        dispatch(recieveSettings(settings))
+      })
+    }
+}
+
+export function getAllSessions() {
     return dispatch => {
       repo.getSessions(sessions => {
         dispatch(recieveSessions(sessions))
@@ -45,6 +58,6 @@ export function updateSession(data) {
 
 export function submitTime(id) {
   return (dispatch, getState) => {
-    repo.update(id,(e)=>{console.log('removed',e)})
+    repo.submitTime(id,(e)=>{console.log('removed',e)})
   }
 }

@@ -1,28 +1,24 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import {  deleteSession,updateSession,submitTime } from '../actions'
-import {  getSessions } from '../reducers/sessions'
+import {  sessions } from '../reducers/sessions'
 import SessionPanelList from '../components/sessions/SessionPanelList'
 
 class SessionsContainer extends Component {
   render() {
-    const { sessions, deleteSession,updateSession,submitTime } = this.props
+    const { sessions } = this.props
     const data = [
       { type:'warning', title:'Not processed sessions',  sessions:sessions.new_sessions},
-      { type:'info', title:'Ready to submit',         sessions:sessions.ready_to_submit},
-      { type:'success', title:'Complete',                sessions:sessions.complete},
+      { type:'info', title:'Ready to submit', sessions:sessions.ready_to_submit},
+      { type:'success', title:'Complete', sessions:sessions.complete},
     ]
     return (
       <div className="row">
         {data.map(item =>
-          <div className="col-xs-4">
+          <div className="col-sm-12 col-md-4" key={item.title}>
             <SessionPanelList
               title={item.title}
               type={item.type}
-              sessions={item.sessions}
-              onSessionDeleted={deleteSession}
-              onSaveSessionClicked={updateSession}
-              onSubmitSessionClicked={submitTime} />
+              sessions={item.sessions} />
           </div>
         )}
       </div>
@@ -36,11 +32,11 @@ SessionsContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    sessions: getSessions(state)
+    sessions: state.sessions
   }
 }
 
 export default connect(
   mapStateToProps,
-  { deleteSession, updateSession ,submitTime }
+  null
 )(SessionsContainer)

@@ -5,19 +5,14 @@ import SessionForm from './SessionForm'
 
 export default class SessionPanel extends Component {
     render() {
-        const { onSaveSessionClicked, onSubmitSessionClicked, onSessionDeleted,type } = this.props
-        var session = this.props.session
+        const { session,type } = this.props
         return (
           <div className={'box box-' + type}>
-                <PanelHeader session={session} onSessionDeleted={onSessionDeleted} />
+                <PanelHeader session={session} />
                 <div className="box-body">
                     <h3> {session.Value.Message}</h3>
                 </div>
-                <SessionForm
-                  session={session}
-                  onSaveSessionClicked={onSaveSessionClicked}
-                  onSubmitSessionClicked={onSubmitSessionClicked}
-                   />
+                <SessionForm session={session} />
                 <SessionDetails session={session} />
             </div>
         )
@@ -25,8 +20,5 @@ export default class SessionPanel extends Component {
 }
 
 SessionPanel.propTypes = {
-  session: PropTypes.object,
-  onSaveSessionClicked: PropTypes.func,
-  onSubmitSessionClicked: PropTypes.func.isRequired,
-  onSessionDeleted: PropTypes.func.isRequired
+  session: PropTypes.object
 }

@@ -3,6 +3,8 @@ export const SESSION_DELETE = 'SESSION_DELETE'
 export const SESSION_SUBMIT_TIME = 'SESSION_SUBMIT_TIME'
 export const USERS_IMPORT = 'USERS_IMPORT'
 export const RECIEVE_SESSIONS = 'RECIEVE_SESSIONS'
+export const RECIEVE_SETTINGS = 'RECIEVE_SETTINGS'
+
     //
     // USER_IMPORT: null,
     // USER_UPDATE: null,

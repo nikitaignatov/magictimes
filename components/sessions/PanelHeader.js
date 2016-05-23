@@ -1,4 +1,6 @@
-﻿import React, { Component,PropTypes} from 'react'
+﻿import React, { Component, PropTypes} from 'react'
+import { connect } from 'react-redux'
+import {  deleteSession } from '../../actions'
 
 export default class PanelHeader extends Component {
     render() {
@@ -11,7 +13,7 @@ export default class PanelHeader extends Component {
                   <button type="button" className="btn btn-box-tool" data-widget="collapse">
                       <i className="fa fa-minus"></i>
                   </button>
-                  <button type="button" className="btn btn-box-tool remove-session" data-widget="remove" onClick={(e) => this.props.onSessionDeleted(this.props.session.Key)}>
+                  <button type="button" className="btn btn-box-tool remove-session" data-widget="remove" onClick={(e) => this.props.deleteSession(this.props.session.Key)}>
                       <i className="fa fa-times"></i>
                   </button>
               </div>
@@ -22,5 +24,8 @@ export default class PanelHeader extends Component {
 
 PanelHeader.propTypes = {
   session: PropTypes.object,
-  onSessionDeleted: PropTypes.func.isRequired
 }
+
+export default connect(null,
+  { deleteSession }
+)(PanelHeader)
