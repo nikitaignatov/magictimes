@@ -21,10 +21,10 @@ function deleteSessionUnsafe(id) {
   }
 }
 
-function updateSessionUnsafe(id) {
+function updateSessionUnsafe(data) {
   return {
     type: types.SESSION_UPDATE,
-    id
+    id:data.id
   }
 }
 
@@ -52,7 +52,7 @@ export function deleteSession(id) {
 
 export function updateSession(data) {
   return (dispatch, getState) => {
-    repo.update(data,(e)=>dispatch(updateSessionUnsafe(id)))
+    repo.update(data,(e)=>dispatch(updateSessionUnsafe(data)))
   }
 }
 
