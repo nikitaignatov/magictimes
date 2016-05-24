@@ -3,7 +3,6 @@
 const initialState= {complete:[],new_sessions:[],ready_to_submit:[]}
 
 export default (state = initialState, action) => {
-  console.log('reducer state', state,action)
   switch (action.type) {
     case RECIEVE_SESSIONS:
       return action.sessions
