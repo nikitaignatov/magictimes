@@ -5,7 +5,7 @@ import SessionPanelList from '../components/sessions/SessionPanelList'
 
 class SessionsContainer extends Component {
   render() {
-    const { sessions } = this.props
+    const { sessions,settings } = this.props
     const data = [
       { type:'warning', title:'Not processed sessions',  sessions:sessions.new_sessions},
       { type:'info', title:'Ready to submit', sessions:sessions.ready_to_submit},
@@ -32,7 +32,8 @@ SessionsContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    sessions: state.sessions
+    sessions: state.sessions,
+    settings: state.settings
   }
 }
 
