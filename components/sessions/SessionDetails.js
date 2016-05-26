@@ -28,7 +28,6 @@ export default class SessionDetails extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('STATE:',state)
   return {
     settings: state.settings
   }

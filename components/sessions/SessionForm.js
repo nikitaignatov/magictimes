@@ -4,7 +4,6 @@ import {  updateSession, submitTime } from '../../actions'
 
 export default class SessionForm extends Component {
   saveSession (e){
-    console.log('SUBMIT', this)
     this.props.updateSession({
       id : this.props.session.Key,
       message: this.refs.message.value,

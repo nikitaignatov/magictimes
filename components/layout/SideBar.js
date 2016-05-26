@@ -26,18 +26,9 @@ export default class Header extends Component {
               </form>
               <ul className="sidebar-menu">
                   <li className="header">TURBO NAVIGATION</li>
-                  <li id="import-users"></li>
-                  <li className="treeview">
-                      <a href="#">
-                          <i className="fa fa-dashboard"></i> <span>Dashboard</span> <i className="fa fa-angle-left pull-right"></i>
-                      </a>
-                      <ul className="treeview-menu">
-                          <li><a href="../index2.html"><i className="fa fa-circle-o"></i> Dashboard v2</a></li>
-                      </ul>
-                  </li>
                   <li><a href="#/"><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                   <li><a href="#/settings"><i className="fa fa-cog"></i> <span>Settings</span></a></li>
-
+                  <li><a href="#/users"><i className="fa fa-user"></i> <span>Users</span></a></li>
               </ul>
           </section>
       </aside>
