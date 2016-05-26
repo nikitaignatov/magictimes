@@ -1,5 +1,6 @@
 import repo from '../api/repo'
 import * as types from '../constants/ActionTypes'
+import {getValues} from 'redux-form';
 
 function recieveSessions(sessions) {
     return {
@@ -25,6 +26,13 @@ function updateSessionUnsafe(data) {
   return {
     type: types.SESSION_UPDATE,
     id:data.id
+  }
+}
+
+export function changeSettings(props) {
+  return {
+    type: types.CHANGE_SETTINGS,
+    data:props
   }
 }
 

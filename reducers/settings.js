@@ -1,5 +1,7 @@
 import Immutable                     from 'immutable';
-import { RECIEVE_SETTINGS } from '../constants/ActionTypes'
+import { CHANGE_SETTINGS } from '../constants/ActionTypes'
+import {getValues} from 'redux-form';
+
 
 const initialState = {
   gemini: {
@@ -11,8 +13,8 @@ const initialState = {
 
 export default (state = initialState , action) => {
   switch (action.type) {
-    case RECIEVE_SETTINGS:
-      return action.settings
+    case CHANGE_SETTINGS:
+      return action.data
     default:
       return state
   }

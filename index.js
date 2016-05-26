@@ -7,6 +7,7 @@ import { syncHistory, routeReducer } from 'redux-simple-router'
 import { hashHistory } from 'react-router'
 import routes from './config/routes'
 import logger from 'redux-logger'
+import {reducer as formReducer} from 'redux-form';
 import thunk from 'redux-thunk'
 import settings from './reducers/settings'
 import sessions from './reducers/sessions'
@@ -21,7 +22,8 @@ const store = createStore(
   combineReducers({
     routeReducer,
     settings,
-    sessions
+    sessions,
+    form: formReducer
   }),
   applyMiddleware(...middleware)
 )
