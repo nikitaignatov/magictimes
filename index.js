@@ -8,6 +8,7 @@ import { hashHistory } from 'react-router'
 import routes from './config/routes'
 import logger from 'redux-logger'
 import {reducer as formReducer} from 'redux-form';
+import {reducer as toastrReducer} from 'react-redux-toastr'
 import thunk from 'redux-thunk'
 import settings from './reducers/settings'
 import sessions from './reducers/sessions'
@@ -23,7 +24,8 @@ const store = createStore(
     routeReducer,
     settings,
     sessions,
-    form: formReducer
+    form: formReducer,
+    toastr: toastrReducer
   }),
   applyMiddleware(...middleware)
 )

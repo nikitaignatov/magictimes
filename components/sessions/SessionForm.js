@@ -1,6 +1,14 @@
 import React, { Component,PropTypes } from 'react'
 import { connect } from 'react-redux'
+import { reduxForm, addArrayValue } from 'redux-form'
 import {  updateSession, submitTime } from '../../actions'
+
+export const fields = [
+  'id',
+  'message',
+  'ticket',
+  'type'
+]
 
 export default class SessionForm extends Component {
   saveSession (e){
@@ -11,8 +19,9 @@ export default class SessionForm extends Component {
       type: 1
     })
   }
+
   render () {
-    const {  updateSession, submitTime } = this.props
+    const {  updateSession, submitTime, handleSubmit } = this.props
     const session = this.props.session.Value
     var items = []
     if (session.IsMissingTicket) {
@@ -41,18 +50,10 @@ export default class SessionForm extends Component {
                 </div>
             </div>
         )
-    } else if (!session.IsSubmitted) {
-        items.push(
-            <div className="box-footer" key={'submit-button'}>
-                <div className="text-right">
-                    <button type="button" className="btn btn-info btn-flat" onClick={(e)=> submitTime(this.props.session.Key)}>Submit</button>
-                </div>
-            </div>
-        )
-    }
+    } 
     return (
         <div className="box-body">
-            <form onSubmit={(e)=>{this.saveSession(e)}}>{items}</form>
+            <form onSubmit={handleSubmit(this.saveSession.bind(this))}>{items}</form>
         </div>
     );
   }
@@ -60,8 +61,12 @@ export default class SessionForm extends Component {
 
 SessionForm.propTypes = {
   session: PropTypes.object,
+  fields: PropTypes.object.isRequired,
+  updateSession: PropTypes.func.isRequired,
 }
 
-export default connect(null,
-  { updateSession, submitTime }
-)(SessionForm)
+export default reduxForm({
+  form: 'session',
+  fields
+}, state => ({ initialValues: state.session }),{updateSession,submitTime})
+(SessionForm)

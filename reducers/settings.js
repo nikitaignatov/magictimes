@@ -1,5 +1,5 @@
 import Immutable                     from 'immutable';
-import { CHANGE_SETTINGS } from '../constants/ActionTypes'
+import { CHANGE_SETTINGS ,RECIEVE_UPDATE } from '../constants/ActionTypes'
 import {getValues} from 'redux-form';
 
 
@@ -15,6 +15,8 @@ export default (state = initialState , action) => {
   switch (action.type) {
     case CHANGE_SETTINGS:
       return action.data
+    case RECIEVE_UPDATE:
+      return action.data.settings
     default:
       return state
   }

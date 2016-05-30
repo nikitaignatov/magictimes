@@ -1,13 +1,15 @@
 import repo from '../api/repo'
 import * as types from '../constants/ActionTypes'
 import {getValues} from 'redux-form';
+import {toastr} from 'react-redux-toastr'
 
-function recieveSessions(sessions) {
+function recieveUpdate(data) {
     return {
-        type: types.RECIEVE_SESSIONS,
-        sessions: sessions
+        type: types.RECIEVE_UPDATE,
+        data: data
     }
 }
+
 function recieveSettings(settings) {
     return {
         type: types.RECIEVE_SETTINGS,
@@ -16,6 +18,7 @@ function recieveSettings(settings) {
 }
 
 function deleteSessionUnsafe(id) {
+  toastr.success('Session was deleted',id)
   return {
     type: types.SESSION_DELETE,
     id
@@ -23,6 +26,7 @@ function deleteSessionUnsafe(id) {
 }
 
 function updateSessionUnsafe(data) {
+  toastr.success('Session was updated',data.id)
   return {
     type: types.SESSION_UPDATE,
     id:data.id
@@ -30,24 +34,48 @@ function updateSessionUnsafe(data) {
 }
 
 export function changeSettings(props) {
-  return {
-    type: types.CHANGE_SETTINGS,
-    data:props
+  return dispatch => {
+    dispatch({
+      type: types.CHANGE_SETTINGS,
+      data:props
+    })
+    repo.changeSettings(props)
   }
 }
 
-export function getAllSessions() {
-    return dispatch => {
-      repo.getSettings(settings => {
-        dispatch(recieveSettings(settings))
-      })
-    }
+export function changeSettingsComplete(props) {
+  toastr.success('Settings are saved')
+  return dispatch => dispatch({
+    type: types.CHANGE_SETTINGS_COMPLETE,
+    data:props
+  })
+}
+
+export function logFromServer(message) {
+  toastr.error('Error occured',message)
+  return dispatch => dispatch({
+    type: types.SERVER_ERROR_LOG,
+    data:props
+  })
+}
+
+export function connected() {
+  return dispatch => dispatch({
+    type: types.SERVER_CONNECTED
+  })
+}
+
+export function connectionFailed(message) {
+  toastr.error('Error occured',message)
+  return dispatch => dispatch({
+    type: types.SERVER_CONNECTION_FAILED
+  })
 }
 
 export function getAllSessions() {
     return dispatch => {
-      repo.getSessions(sessions => {
-        dispatch(recieveSessions(sessions))
+      repo.recieveUpdate(data => {
+        dispatch(recieveUpdate(data))
       })
     }
 }
@@ -64,8 +92,10 @@ export function updateSession(data) {
   }
 }
 
-export function submitTime(id) {
+export function submitTime(id, who) {
   return (dispatch, getState) => {
-    repo.submitTime(id,(e)=>{console.log('removed',e)})
+    repo.submitTime(id,who,(e)=>{
+      toastr.success('Session was submitted to Gemini')
+    })
   }
 }
