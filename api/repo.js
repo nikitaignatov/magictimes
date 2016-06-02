@@ -37,9 +37,9 @@ export default {
   update(data,call) {
     proxy.invoke('commentOn', data.id, data.message, data.ticket, data.type).done((e)=> call(e));
   },
-  submitTime(id,who,call) {
-    console.log('submit',id,who)
-    proxy.invoke('submitTimeEntry', id,who).done((e)=> call(e));
+  submitTime(id,who,createSubTicket, call) {
+    console.log('submit',id,who,createSubTicket)
+    proxy.invoke('submitTimeEntry',{Input:{Sessioin:id,SubmitFor:who,CreateNewTicket:createSubTicket}} ).done((e)=> call(e));
   },
   remove(id,call) {
     proxy.invoke('remove', id).done((e)=> call(e));

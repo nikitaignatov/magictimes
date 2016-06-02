@@ -92,9 +92,9 @@ export function updateSession(data) {
   }
 }
 
-export function submitTime(id, who) {
+export function submitTime(id, who,createSubTicket) {
   return (dispatch, getState) => {
-    repo.submitTime(id,who,(e)=>{
+    repo.submitTime(id,who,createSubTicket,(e)=>{
       toastr.success('Session was submitted to Gemini')
     })
   }
