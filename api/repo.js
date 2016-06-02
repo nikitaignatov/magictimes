@@ -46,5 +46,8 @@ export default {
   },
   changeSettings(settings,call) {
     proxy.invoke('changeSettings', settings).done((e)=> console.log('changeSettings done',e));
+  },
+  importUsers() {
+    proxy.invoke('importUsers').done((e)=> console.log('import users done',e));
   }
 }

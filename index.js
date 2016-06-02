@@ -12,6 +12,7 @@ import {reducer as toastrReducer} from 'react-redux-toastr'
 import thunk from 'redux-thunk'
 import settings from './reducers/settings'
 import sessions from './reducers/sessions'
+import users from './reducers/users'
 import { getAllSessions } from './actions'
 import App from './containers/App'
 
@@ -24,6 +25,7 @@ const store = createStore(
     routeReducer,
     settings,
     sessions,
+    users,
     form: formReducer,
     toastr: toastrReducer
   }),

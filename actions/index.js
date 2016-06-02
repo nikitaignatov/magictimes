@@ -99,3 +99,21 @@ export function submitTime(id, who,createSubTicket) {
     })
   }
 }
+
+
+export function importUsers() {
+  return (dispatch, getState) => {
+    dispatch({
+      type: types.USERS_IMPORT
+    })
+    repo.importUsers()
+  }
+}
+
+export function importUsersSuccess(users) {
+  toastr.success('users are imported')
+  return dispatch => dispatch({
+    type: types.USERS_IMPORT_SUCCESS,
+    users:users
+  })
+}
