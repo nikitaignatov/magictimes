@@ -1,11 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { users } from '../reducers/users'
 import UserList from '../components/users/UserList'
 
 class UsersContainer extends Component {
   render() {
-    console.log(this.props)
     return (
       <div>
         <div className="row">
@@ -23,12 +21,10 @@ UsersContainer.propTypes = {
 }
 
 function mapStateToProps(state) {
+  console.log('USERS-> ',state)
   return {
     users: state.users
   }
 }
 
-export default connect(
-  mapStateToProps,
-  null
-)(UsersContainer)
+export default connect(mapStateToProps, null)(UsersContainer)

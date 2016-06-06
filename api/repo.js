@@ -1,53 +1,28 @@
+import {serverErrorLog,serverConnectionFailed,serverConnected} from '../actions/server'
+import {changeSettingsComplete} from '../actions/settings'
+import {deleteSessionComplete} from '../actions/session'
+import swal from 'sweetalert2'
 
-var connection = $.hubConnection('http://localhost:9000');
-var proxy = connection.createHubProxy('nfcHub');
-import {changeSettingsComplete,recieveUpdate,logFromServer,connected,connectionFailed} from '../actions'
-import {toastr} from 'react-redux-toastr'
+export function startSignlar(store) {
+  var connection = $.hubConnection('http://localhost:9000');
+  var proxy = connection.createHubProxy('nfcHub');
 
+  proxy.on('dummy', message => store.dispatch({type:'DUMMY',message}));
 
-proxy.on('update', function(message) {
-    console.log(message);
-});
-proxy.on('log', function(message) {
-    logFromServer(message);
-});
-proxy.on('changeSettingsComplete', function(data) {
-  changeSettingsComplete(data)
-});
+  connection
+    .start({ jsonp: false })
+    .done(() => store.dispatch(serverConnected(proxy, connection.id)))
+    .fail((e)=> store.dispatch(serverConnectionFailed(e)));
 
-proxy.on('register', function(data) {
-  console.log('who is:', data)
-  proxy.invoke('register', data, prompt('Who is this?', '')).done((e)=> console.log('registered',e));
-});
-
-connection.start({ jsonp: false })
-  .done(function(){ console.log('Now connected, connection ID=' + connection.id); connected()  })
-  .fail(function(e){
-    console.log('Could not connect',e);
-    connectionFailed('Could not connect to server.')
-  });
+  proxy.on('update', (data)=> store.dispatch({type:'RECIEVE_UPDATE',data}));
+  proxy.on('log', (message) => store.dispatch(serverErrorLog(message)));
+  proxy.on('changeSettingsComplete', (data) => store.dispatch(changeSettingsComplete(data)));
+  proxy.on('register', (data) => store.dispatch({type:'NEW_CARD_RECIEVED', data}));
+  proxy.on('sessionDeleteComplete', (data) => store.dispatch(deleteSessionComplete(data)));
+}
 
 export default {
-  recieveUpdate(call) {
-    proxy.on('update', function(data) {
-      console.log('update',data)
-      call(data)
-    })
-  },
-  update(data,call) {
-    proxy.invoke('commentOn', data.id, data.message, data.ticket, data.type).done((e)=> call(e));
-  },
-  submitTime(id,who,createSubTicket, call) {
-    console.log('submit',id,who,createSubTicket)
-    proxy.invoke('submitTimeEntry',{Input:{Sessioin:id,SubmitFor:who,CreateNewTicket:createSubTicket}} ).done((e)=> call(e));
-  },
-  remove(id,call) {
-    proxy.invoke('remove', id).done((e)=> call(e));
-  },
-  changeSettings(settings,call) {
-    proxy.invoke('changeSettings', settings).done((e)=> console.log('changeSettings done',e));
-  },
-  importUsers() {
-    proxy.invoke('importUsers').done((e)=> console.log('import users done',e));
+  register(data,user,call){
+    proxy.invoke('register', data, user).done((e)=> call(data,user))
   }
 }

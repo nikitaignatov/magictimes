@@ -1,11 +1,10 @@
 import React, { Component,PropTypes } from 'react'
 import { connect } from 'react-redux'
-import { submitTime } from '../../actions'
+import { submitTime } from '../../actions/session'
 import Checkbox from '../forms/Checkbox';
 
 export default class SessionSubmitForm extends Component {
   render () {
-    const { submitTime } = this.props
     const key = this.props.session.Key
     const session = this.props.session.Value
     var createSubTicket=false;
@@ -20,14 +19,14 @@ export default class SessionSubmitForm extends Component {
             <div className="col-sm-6">
               <div className="text-right">
                  <div className="btn-group">
-                    <button type="button" onClick={(e)=> submitTime(key,'current', this.refs.createSubTicket.state.isChecked)} className="btn btn-info">Submit to Gemini</button>
+                    <button type="button" onClick={(e)=> this.props.submitTime(key,'current', this.refs.createSubTicket.state.isChecked)} className="btn btn-info">Submit to Gemini</button>
                     <button type="button" className="btn btn-info dropdown-toggle" data-toggle="dropdown">
                       <span className="caret"></span>
                       <span className="sr-only">Toggle Dropdown</span>
                     </button>
                     <ul className="dropdown-menu" role="menu">
                       <li>
-                        <a href="#" onClick={(e)=> submitTime(key,'all', this.refs.createSubTicket.state.isChecked)} title="will add log entry for each of the participants of this session">Submit for all users</a>
+                        <a href="#" onClick={(e)=> this.props.submitTime(key,'all', this.refs.createSubTicket.state.isChecked)} title="will add log entry for each of the participants of this session">Submit for all users</a>
                       </li>
                     </ul>
                   </div>

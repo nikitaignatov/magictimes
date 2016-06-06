@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { reduxForm, addArrayValue } from 'redux-form'
 import { connect } from 'react-redux'
-import {  changeSettings } from '../../actions'
+import {  changeSettings } from '../../actions/settings'
 
 export const fields = [
   'round_minutes_to',

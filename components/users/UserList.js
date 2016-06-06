@@ -1,10 +1,11 @@
 ﻿import React, { Component, PropTypes } from 'react'
 import User from './User'
 import { connect } from 'react-redux'
-import {  importUsers } from '../../actions'
+import {  importUsers } from '../../actions/users'
 
 export default class UserList extends Component {
   render() {
+    console.log('STATE3',this.props)
     return (
       <div>
         <div><button className="btn btn-info" onClick={e=>this.props.importUsers()}>Import users</button></div>
@@ -18,9 +19,4 @@ UserList.propTypes = {
   users: PropTypes.array.isRequired
 }
 
-function mapStateToProps(state) {
-  return {
-    users: state.users
-  }
-}
-export default connect(mapStateToProps, {importUsers})(UserList)
+export default connect(null, {importUsers})(UserList)

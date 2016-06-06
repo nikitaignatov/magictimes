@@ -5,7 +5,12 @@ const initialState= {complete:[],new_sessions:[],ready_to_submit:[]}
 export default (state = initialState, action) => {
   switch (action.type) {
     case RECIEVE_UPDATE:
-      return action.data
+      let sessions={
+complete:action.data.complete,
+new_sessions:action.data.new_sessions,
+ready_to_submit:action.data.ready_to_submit
+      }
+      return {...state,...sessions}
     default:
       return state
   }

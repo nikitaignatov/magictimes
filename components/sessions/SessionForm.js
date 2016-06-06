@@ -1,7 +1,7 @@
 import React, { Component,PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { reduxForm, addArrayValue } from 'redux-form'
-import {  updateSession, submitTime } from '../../actions'
+import {  updateSession, submitTime } from '../../actions/session'
 
 export const fields = [
   'id',
@@ -50,7 +50,7 @@ export default class SessionForm extends Component {
                 </div>
             </div>
         )
-    } 
+    }
     return (
         <div className="box-body">
             <form onSubmit={handleSubmit(this.saveSession.bind(this))}>{items}</form>

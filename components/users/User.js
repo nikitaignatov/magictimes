@@ -10,7 +10,7 @@ export default class User extends Component {
           <p> <a href="">{data.Username}</a></p>
           <p> <a href={'mailto:'+data.Email}>{data.Email}</a></p>
           <ul>
-            {data.Cards.map(card =>   <li>{card}</li>)}
+            {data.Cards.map(card => <li>{card}</li>)}
           </ul>
           <button>Add card</button>
         </div>

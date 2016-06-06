@@ -23,6 +23,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-2": "^6.5.0",
     "cross-env": "^1.0.7",
     "css-loader": "^0.23.1",
     "enzyme": "^2.0.0",
@@ -59,6 +60,7 @@
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
     "babel-polyfill": "^6.9.1",
     "babel-runtime": "^6.9.2",
+    "babel-tape-runner": "^2.0.1",
     "immutable": "3.8.1",
     "lodash": "4.12.0",
     "react": "^15.0.2",
@@ -69,13 +71,17 @@
     "react-tap-event-plugin": "1.0.0",
     "redux": "3.5.2",
     "redux-form": "^5.2.5",
+    "redux-saga": "^0.10.4",
     "redux-simple-router": "^2.0.4",
     "redux-thunk": "^2.1.0",
+    "sweetalert2": "^3.2.3",
+    "tape": "^4.5.1",
     "webpack": "^1.13.1"
   },
   "scripts": {
     "build": "webpack --progress --watch",
     "start": "node server.js",
-    "dev": "webpack-dev-server --content-base ./ --inline --hot --port 8081"
+    "dev": "webpack-dev-server --content-base ./ --inline --hot --port 8081",
+    "test": "babel-tape-runner ./test/**/*.js"
   }
 }

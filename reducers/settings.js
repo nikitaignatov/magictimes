@@ -13,10 +13,10 @@ const initialState = {
 
 export default (state = initialState , action) => {
   switch (action.type) {
-    case CHANGE_SETTINGS:
-      return action.data
     case RECIEVE_UPDATE:
-      return action.data.settings
+      return {...state,...action.data.settings}
+    case CHANGE_SETTINGS:
+      return {...state,...action.settings}
     default:
       return state
   }

@@ -1,6 +1,6 @@
 ﻿import React, { Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-import {  deleteSession } from '../../actions'
+import { deleteSession } from '../../actions/session'
 
 export default class PanelHeader extends Component {
     render() {
