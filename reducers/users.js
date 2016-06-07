@@ -8,9 +8,6 @@ const initialState =[{
     Cards:[]
   },];
 
-
-
-
 export default (state = initialState , action) => {
   console.log(action)
   switch (action.type) {

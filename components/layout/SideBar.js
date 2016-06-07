@@ -29,6 +29,7 @@ export default class Header extends Component {
                   <li><a href="#/"><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
                   <li><a href="#/settings"><i className="fa fa-cog"></i> <span>Settings</span></a></li>
                   <li><a href="#/users"><i className="fa fa-user"></i> <span>Users</span></a></li>
+                  <li><a href="#/working-hours"><i className="fa fa-hourglass-half"></i> <span>Working hours</span></a></li>
               </ul>
           </section>
       </aside>

@@ -35,11 +35,7 @@ SessionsContainer.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    dashboard:{
-      total_minutes:state.sessions.total_minutes,
-      total_questions:state.sessions.total_questions,
-      total_sessions:state.sessions.total_sessions
-    },
+    dashboard:state.sessions.dashboard,
     sessions: state.sessions,
     settings: state.settings
   }

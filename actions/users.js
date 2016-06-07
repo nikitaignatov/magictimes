@@ -3,7 +3,12 @@ import {
   USERS_IMPORT_SUCCESS,
   USERS_ASSIGN_CARD,
   USERS_ASSIGN_CARD_SUCCESS,
+  NEW_CARD_RECIEVED,
+  USERS_REGISTER,
+  USERS_REGISTER_SUCCESS,
 } from "../constants/ActionTypes.js";
+import _ from 'lodash'
+import {toastr} from 'react-redux-toastr'
 
 export function importUsersAction() {
   return { type: USERS_IMPORT }
@@ -15,6 +20,9 @@ export function importUsersSuccessAction(users) {
 
 export function assignCardToUser(card, user) {
   return { type: USERS_ASSIGN_CARD, card: card, user: user }
+}
+export function newCardRecieved(data) {
+  return { type: NEW_CARD_RECIEVED, data }
 }
 
 export function assignCardToUserSuccess(user) {
@@ -35,7 +43,13 @@ export function importUsersSuccess(users) {
 
 export function registerUser(data) {
   return (dispatch, getState) => {
-    console.log('registerUser',getState())
+    dispatch(newCardRecieved(data))
+    let values = _
+      .chain(data.users)
+      .keyBy('Email')
+      .mapValues('Name')
+      .value();
+
     swal({
       title: "Who is this?",
       text: 'You need to register the user:',
@@ -43,17 +57,19 @@ export function registerUser(data) {
       showCancelButton: true,
       closeOnConfirm: false,
       animation: "slide-from-top",
-      inputOptions: {
-      'SRB': 'Serbia',
-      'UKR': 'Ukraine',
-      'HRV': 'Croatia'
-      },
-    }, function(user){
-        getState().server.proxy.register(data,user,registerUserSuccess)
+      inputOptions: values,
+    }).then(function(user) {
+      if (user) {
+        console.log('SELECTED', user)
+
+        dispatch({
+          type: USERS_REGISTER,
+          user,
+          card: data.card
+        })
+        getState().server.proxy.invoke('register', data.card, user)
+      }
     });
-    dispatch({
-      type: types.USERS_REGISTER
-    })
   }
 }
 
@@ -61,6 +77,6 @@ function registerUserSuccess(data,user) {
   console.log('REG SUCC',user,data)
   swal("Registered!",  user + ' has been assigned to ' + data,  "success")
   return {
-      type: types.USERS_REGISTER_SUCCESS
+      type: USERS_REGISTER_SUCCESS
   }
 }

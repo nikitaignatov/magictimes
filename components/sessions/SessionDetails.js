@@ -20,7 +20,8 @@ export default class SessionDetails extends Component {
               <tr><td>Ended</td><td>{data.End}</td></tr>
               <tr><td>Ticket</td><td><a href={url} target="_blank">{data.Ticket}</a></td></tr>
               <tr><td>TimeEntryId</td><td>{data.TimeEntryId} <button className="btn btn-xs" title="delete time from ge">x</button></td></tr>
-              <tr><td>Tx</td><td>{data.Transaction.TransactionId}</td></tr>
+              {data.Transactions.map((tx)=><tr><td>Tx</td><td>{tx.TransactionId}</td></tr>)}
+
          </tbody>
       </table>
     )

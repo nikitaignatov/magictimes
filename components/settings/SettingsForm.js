@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { reduxForm, addArrayValue } from 'redux-form'
 import { connect } from 'react-redux'
 import {  changeSettings } from '../../actions/settings'
+import {  importUsers } from '../../actions/users'
 
 export const fields = [
   'round_minutes_to',
@@ -35,7 +36,8 @@ export default class SettingsForm extends Component {
           </div>
           <div className="box-footer" key={'submit-button'}>
               <div className="text-right">
-                  <button type="submit" className="btn btn-flat">Save</button>
+                <button type="button" className="btn btn-default btn-flat" onClick={e=>this.props.importUsers()}>Import users</button>
+                <button type="submit" className="btn btn-info btn-flat">Save</button>
               </div>
           </div>
         </form>
@@ -53,5 +55,5 @@ SettingsForm.propTypes = {
 export default reduxForm({
   form: 'settings',
   fields
-}, state => ({ initialValues: state.settings }),{changeSettings})
+}, state => ({ initialValues: state.settings }),{changeSettings,importUsers})
 (SettingsForm)
