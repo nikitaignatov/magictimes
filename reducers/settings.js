@@ -1,5 +1,5 @@
 import Immutable                     from 'immutable';
-import { CHANGE_SETTINGS ,RECIEVE_UPDATE } from '../constants/ActionTypes'
+import { CHANGE_SETTINGS ,RECIEVE_UPDATE,NOTIFICATION_ADDED } from '../constants/ActionTypes'
 import {getValues} from 'redux-form';
 
 
@@ -17,6 +17,8 @@ export default (state = initialState , action) => {
       return {...state,...action.data.settings}
     case CHANGE_SETTINGS:
       return {...state,...action.settings}
+    case NOTIFICATION_ADDED:
+      return {...state,...{notification:'pooop'}}
     default:
       return state
   }

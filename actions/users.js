@@ -67,7 +67,7 @@ export function registerUser(data) {
           user,
           card: data.card
         })
-        getState().server.proxy.invoke('register', data.card, user)
+        getState().server.proxy.invoke('register', data.card, user).done((r)=>console.log('REGR:',r))
       }
     });
   }
