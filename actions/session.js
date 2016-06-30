@@ -9,6 +9,10 @@ import {
 
 import {toastr} from 'react-redux-toastr'
 
+function wrap(CASE, data){
+  return {Case:CASE,Fields:data ? [data]:[]}
+}
+
 function deleteSessionAction(id) {
   return { type: SESSION_DELETE, id }
 }
@@ -28,7 +32,7 @@ function submitTimeCompleteAction(id) {
 export function deleteSession(id) {
   return (dispatch, getState) => {
     dispatch(deleteSessionAction(id))
-    getState().server.proxy.invoke('sessionDelete', id);
+    getState().server.proxy.invoke('command', wrap('DeleteSession',{id}));
   }
 }
 
@@ -43,7 +47,7 @@ export function updateSession(data) {
   return (dispatch, getState) => {
     dispatch({ type: SESSION_UPDATE, data })
     getState().server.proxy
-      .invoke('commentOn', data.id, data.message, data.ticket, data.type)
+      .invoke('command',wrap('AddComment',{comment: data.message,id:data.id}))
       .done((e)=> toastr.success('Session was updated'));
   }
 }
