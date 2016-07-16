@@ -37,7 +37,7 @@ function mapStateToProps(state) {
   return {
     dashboard:state.sessions.dashboard,
     sessions: state.sessions,
-    settings: state.settings
+    id: props.params.id 
   }
 }
 
