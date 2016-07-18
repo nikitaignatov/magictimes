@@ -13,7 +13,7 @@ export const fields = [
 export default class SessionForm extends Component {
   saveSession (e){
     this.props.updateSession({
-      id : this.props.session.Key,
+      id : this.props.session.Name,
       message: this.refs.message.value,
       ticket: this.refs.ticket.value,
       type: 1
@@ -22,7 +22,7 @@ export default class SessionForm extends Component {
 
   render () {
     const {  updateSession, submitTime, handleSubmit } = this.props
-    const session = this.props.session.Value
+    const session = this.props.session
     var items = []
     if (session.IsMissingTicket) {
         items.push(

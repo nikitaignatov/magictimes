@@ -1,13 +1,18 @@
 ﻿import React, { Component, PropTypes} from 'react'
+import { connect } from 'react-redux'
+import { go } from '../../actions/server'
 
-export default class Header extends Component {
+
+export class SideBar extends Component {
   render() {
+
+      const page =page=> (e) => {e.preventDefault(); this.props.go(page)}
     return (
       <aside className="main-sidebar">
           <section className="sidebar">
               <div className="user-panel">
                   <div className="pull-left image">
-                      <img src="../node_modules/admin-lte/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image" />
+                      <img src="/node_modules/admin-lte/dist/img/user2-160x160.jpg" className="img-circle" alt="User Image" />
                   </div>
                   <div className="pull-left info">
                       <p>Turbo Coder</p>
@@ -26,13 +31,18 @@ export default class Header extends Component {
               </form>
               <ul className="sidebar-menu">
                   <li className="header">TURBO NAVIGATION</li>
-                  <li><a href="#/"><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                  <li><a href="#/settings"><i className="fa fa-cog"></i> <span>Settings</span></a></li>
-                  <li><a href="#/users"><i className="fa fa-user"></i> <span>Users</span></a></li>
-                  <li><a href="#/working-hours"><i className="fa fa-hourglass-half"></i> <span>Working hours</span></a></li>
+                  <li><a href="#" onClick={page('/sessions/')}><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                  <li><a href="#" onClick={page('/settings/')}><i className="fa fa-cog"></i> <span>Settings</span></a></li>
+                  <li><a href="#" onClick={page('/users/')}><i className="fa fa-user"></i> <span>Users</span></a></li>
+                  <li><a href="#" onClick={page('/working-hours/')}><i className="fa fa-hourglass-half"></i> <span>Working hours</span></a></li>
               </ul>
           </section>
       </aside>
     )
   }
 }
+
+export default connect(
+  null,
+  {go}
+)(SideBar)

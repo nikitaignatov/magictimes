@@ -5,8 +5,8 @@ import Checkbox from '../forms/Checkbox';
 
 export default class SessionSubmitForm extends Component {
   render () {
-    const key = this.props.session.Key
-    const session = this.props.session.Value
+    const key = "this.props.session.Key"
+    const session = this.props.session
     var createSubTicket=false;
     var items = []
     if (session.IsValid && !session.IsSubmitted) {

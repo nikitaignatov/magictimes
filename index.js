@@ -3,8 +3,9 @@ import React from 'react'
 import { render  } from 'react-dom'
 import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { Provider } from 'react-redux'
-import { syncHistoryWithStore } from 'react-router-redux'
-import { hashHistory } from 'react-router'
+import { syncHistoryWithStore,routerMiddleware } from 'react-router-redux'
+import { browserHistory } from 'react-router'
+import { createHistory } from 'history'
 import logger from 'redux-logger'
 import thunk from 'redux-thunk'
 import routes from './config/routes'
@@ -13,12 +14,12 @@ import {startSignlar} from './api/repo'
 import App from './containers/App'
 
 const middleware = process.env.NODE_ENV === 'production' ?
-  [ thunk, ] :
-  [ thunk, logger() ]
+  [ thunk,routerMiddleware(browserHistory), ] :
+  [ thunk,routerMiddleware(browserHistory), logger() ]
 
 const store = createStore(reducer, applyMiddleware(...middleware))
 
-const history = syncHistoryWithStore(hashHistory, store)
+const history = syncHistoryWithStore(browserHistory, store)
 startSignlar(store)
 
 render(

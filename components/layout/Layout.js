@@ -1,8 +1,8 @@
 ﻿import React, { Component, PropTypes} from 'react'
 import { connect } from 'react-redux'
-﻿import Header from './Header'
-﻿import Footer from './Footer'
-﻿import SideBar from './SideBar'
+import Header from './Header'
+import Footer from './Footer'
+import SideBar from './SideBar'
 
 import ReduxToastr, {toastr} from 'react-redux-toastr'
 

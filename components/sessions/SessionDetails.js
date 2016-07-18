@@ -1,34 +1,37 @@
 ﻿import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { viewSession } from '../../actions/session'
 
-export default class SessionDetails extends Component {
-  toTicketUrl(template, ticket){
-    return template.replace(/{ticket}/gi,ticket)
-  }
-  render() {
-    var settings = this.props.settings;
-    var data = this.props.session.Value;
-    data.Start = moment(data.Transaction.Started, moment.ISO_8601).fromNow()
-    data.End = moment(data.Transaction.Ended, moment.ISO_8601).fromNow()
-    data.Duration = moment.duration(data.Transaction.Duration).humanize()
-    var url = this.toTicketUrl(settings.gemini.ticket_url, data.Ticket)
+export class SessionDetails extends Component {
+  render () {
+    var data = this.props.session
+
+    data.start = moment(data.startTime, moment.ISO_8601).format('HH:mm')
+    data.end = (moment(data.endTime, moment.ISO_8601) || Date.now()).format('HH:mm')
+    data.duration = moment.duration(data.duration).humanize()
+
     return (
-      <table className="table text-muted table-striped table-hover">
-         <tbody>
-              <tr><td>Duration</td><th>{data.Duration}</th></tr>
-              <tr><td>Started</td><td>{data.Start}</td></tr>
-              <tr><td>Ended</td><td>{data.End}</td></tr>
-              <tr><td>Ticket</td><td><a href={url} target="_blank">{data.Ticket}</a></td></tr>
-              <tr><td>TimeEntryId</td><td>{data.TimeEntryId} <button className="btn btn-xs" title="delete time from ge">x</button></td></tr>
-              {data.Transactions.map((tx)=><tr><td>Tx</td><td>{tx.TransactionId}</td></tr>)}
-
-         </tbody>
-      </table>
+    <tr onClick={e => this.props.viewSession(data.id)}>
+      <td class="tracker-td-duration">
+        <button className="btn default dropdown-toggle btn-menu">
+          <i className="fa fa-ellipsis-v"></i>
+        </button>
+      </td>
+      <td class="text-muted tracker-task">
+        {data.log}
+      </td>
+      <td class="tracker-time">
+        <small class="ng-binding text-muted">{data.start} - {data.end}</small>
+      </td>
+      <td class="tracker-td-duration">
+        {data.duration}
+      </td>
+    </tr>
     )
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps (state) {
   return {
     settings: state.settings
   }
@@ -36,5 +39,5 @@ function mapStateToProps(state) {
 
 export default connect(
   mapStateToProps,
-  null
+  {viewSession}
 )(SessionDetails)
