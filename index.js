@@ -12,6 +12,8 @@ import routes from './config/routes'
 import reducer from './reducers'
 import {startSignlar} from './api/repo'
 import App from './containers/App'
+import './node_modules/react-date-picker/index.css'
+
 
 const middleware = process.env.NODE_ENV === 'production' ?
   [ thunk,routerMiddleware(browserHistory), ] :

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import { reduxForm, addArrayValue } from 'redux-form'
 import { connect } from 'react-redux'
 import {  changeSettings } from '../../actions/settings'
 import {  importUsers } from '../../actions/users'
@@ -10,7 +9,7 @@ export const fields = [
   'gemini.api_key'
 ]
 
-export default class SettingsForm extends Component {
+class SettingsForm extends Component {
   render () {
     const {
       changeSettings,settings, fields: { round_minutes_to, gemini } ,handleSubmit
@@ -52,8 +51,5 @@ SettingsForm.propTypes = {
   changeSettings: PropTypes.func.isRequired,
 }
 
-export default reduxForm({
-  form: 'settings',
-  fields
-}, state => ({ initialValues: state.settings }),{changeSettings,importUsers})
+export default connect(null,{changeSettings,importUsers})
 (SettingsForm)

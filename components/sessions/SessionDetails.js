@@ -1,30 +1,34 @@
 ﻿import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { viewSession } from '../../actions/session'
+import moment from 'moment'
 
 export class SessionDetails extends Component {
   render () {
+    // var project = this.props.project
+    // var issue = this.props.issue
     var data = this.props.session
 
-    data.start = moment(data.startTime, moment.ISO_8601).format('HH:mm')
-    data.end = (moment(data.endTime, moment.ISO_8601) || Date.now()).format('HH:mm')
-    data.duration = moment.duration(data.duration).humanize()
+    const start = moment(data.startTime, moment.ISO_8601).format('HH:mm')
+    const end = (moment(data.endTime, moment.ISO_8601) || Date.now()).format('HH:mm')
+    const duration = moment.duration(data.duration).humanize()
 
     return (
     <tr onClick={e => this.props.viewSession(data.id)}>
-      <td class="tracker-td-duration">
-        <button className="btn default dropdown-toggle btn-menu">
-          <i className="fa fa-ellipsis-v"></i>
-        </button>
+      <td className="tracker-td-duration">
+        <a href="/poop" target="_blank"><span className="label label-info" style={{color:'#f00'}}>{data.issue}</span></a>
       </td>
-      <td class="text-muted tracker-task">
-        {data.log}
+      <td className="tracker-task">
+        <strong style={{'white-space': 'pre-line'}}>{data.log}</strong>
+        <p className="text-muted">
+          <a href="/poop" target="_blank"><span className="">{data.issueData.name}</span></a>
+        </p>
       </td>
-      <td class="tracker-time">
-        <small class="ng-binding text-muted">{data.start} - {data.end}</small>
+      <td className="tracker-time">
+        <small className="ng-binding text-muted">{start} - {end}</small>
       </td>
-      <td class="tracker-td-duration">
-        {data.duration}
+      <td className="tracker-td-duration">
+        {duration}
       </td>
     </tr>
     )

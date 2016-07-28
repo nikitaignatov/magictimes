@@ -1,7 +1,7 @@
-﻿import { RECIEVE_SESSIONS, RECIEVE_UPDATE, NOTIFICATION_ADDED, SESSION_START, SESSION_VIEW, SESSION_START_COMPLETE } from '../constants/ActionTypes'
+﻿import { SESSION_START_COMPLETE } from '../constants/ActionTypes'
 import { modeled } from 'react-redux-form'
 const initialState = {
-  'comment': '',
+  'log': '',
 }
 
 const sessionReducer = (state = initialState , action) => {
@@ -13,6 +13,6 @@ const sessionReducer = (state = initialState , action) => {
   }
 }
 
-const sessionModeledReducer = modeled(sessionReducer, 'session')
+const sessionModeledReducer = modeled(sessionReducer, 'sessionCreator')
 
 export default sessionModeledReducer

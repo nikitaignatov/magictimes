@@ -23,7 +23,6 @@ SessionsContainer.propTypes = {
 }
 
 function mapStateToProps(state, props) {
-  console.log('PP',props.location)
   return {
     sessions: state.sessions,
     id: props.params.id 

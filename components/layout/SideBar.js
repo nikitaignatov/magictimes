@@ -31,10 +31,11 @@ export class SideBar extends Component {
               </form>
               <ul className="sidebar-menu">
                   <li className="header">TURBO NAVIGATION</li>
-                  <li><a href="#" onClick={page('/sessions/')}><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                  <li><a href="#" onClick={page('/settings/')}><i className="fa fa-cog"></i> <span>Settings</span></a></li>
-                  <li><a href="#" onClick={page('/users/')}><i className="fa fa-user"></i> <span>Users</span></a></li>
+                  <li><a href="#" onClick={page('/dashboard/')}><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
+                  <li><a href="#" onClick={page('/sessions/')}><i className="fa fa-list"></i> <span>Sessions</span></a></li>
+                  <li><a href="#" onClick={page('/reports/')}><i className="fa fa-list"></i> <span>Reports</span></a></li>
                   <li><a href="#" onClick={page('/working-hours/')}><i className="fa fa-hourglass-half"></i> <span>Working hours</span></a></li>
+                  <li><a href="#" onClick={page('/settings/')}><i className="fa fa-cog"></i> <span>Settings</span></a></li>
               </ul>
           </section>
       </aside>

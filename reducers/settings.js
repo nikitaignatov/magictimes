@@ -1,6 +1,5 @@
 import Immutable                     from 'immutable';
 import { CHANGE_SETTINGS ,RECIEVE_UPDATE,NOTIFICATION_ADDED } from '../constants/ActionTypes'
-import {getValues} from 'redux-form';
 
 
 const initialState = {
