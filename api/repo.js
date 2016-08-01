@@ -1,7 +1,5 @@
 import {serverErrorLog,serverConnectionFailed,serverConnected} from '../actions/server'
-import {changeSettingsComplete} from '../actions/settings'
 import {deleteSessionComplete} from '../actions/session'
-import {registerUser} from '../actions/users'
 import swal from 'sweetalert2'
 
 export function startSignlar(store) {
@@ -19,9 +17,6 @@ export function startSignlar(store) {
   proxy.on('event', (data)=> store.dispatch(normalize(data)));
   proxy.on('update', (data)=> store.dispatch({type:'RECIEVE_UPDATE',data}));
   proxy.on('log', (message) => store.dispatch(serverErrorLog(message)));
-  proxy.on('changeSettingsComplete', (data) => store.dispatch(changeSettingsComplete(data)));
-  proxy.on('register', (data) => store.dispatch(registerUser(data)));
-  proxy.on('sessionDeleteComplete', (data) => store.dispatch(deleteSessionComplete(data)));
 }
 
 export default {

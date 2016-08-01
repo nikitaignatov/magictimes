@@ -2,42 +2,23 @@ import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import SessionList from '../components/sessions/SessionList'
 import SessionDashboard from '../components/sessions/SessionDashboard'
+import Today from '../components/reports/today'
 
 class SessionsContainer extends Component {
-  render() {
-    const { sessions,settings,dashboard } = this.props
-    const data = [
-      { type:'warning', title:'Not processed sessions',  sessions:sessions.new_sessions},
-      { type:'info', title:'Ready to submit', sessions:sessions.ready_to_submit},
-      { type:'success', title:'Complete', sessions:sessions.complete},
-    ]
+  render () {
+    const { today} = this.props
     return (
-      <div>
-        <SessionDashboard dashboard={dashboard}/>
-        <div className="row">
-          {data.map(item =>
-            <div className="col-sm-12 col-md-4" key={item.title}>
-              <SessionList
-                title={item.title}
-                type={item.type}
-                sessions={item.sessions} />
-            </div>
-          )}
-        </div>
-      </div>
+    <div className="box">
+      <Today today={today} />
+    </div>
     )
   }
 }
 
-SessionsContainer.propTypes = {
-  sessions: PropTypes.object.isRequired
-}
-
-function mapStateToProps(state) {
+function mapStateToProps (state) {
+  console.log('asdasd', state)
   return {
-    dashboard:state.sessions.dashboard,
-    sessions: state.sessions,
-    settings: state.settings
+    today: state.reports.today,
   }
 }
 

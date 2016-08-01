@@ -11,7 +11,7 @@ export class SessionDetails extends Component {
 
     const start = moment(data.startTime, moment.ISO_8601).format('HH:mm')
     const end = (moment(data.endTime, moment.ISO_8601) || Date.now()).format('HH:mm')
-    const duration = moment.duration(data.duration).humanize()
+    const duration = moment.duration(data.duration).asHours();
 
     return (
     <tr onClick={e => this.props.viewSession(data.id)}>

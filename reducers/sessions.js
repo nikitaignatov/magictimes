@@ -33,7 +33,7 @@ const initialState = [init('checking logs'), init('testing database connection')
 const m=(state = initialState , action) => {
   switch (action.type) {
     case RECIEVE_UPDATE:
-      return action.data.new_sessions.map((x)=> {return {
+      return action.data.today.map((x)=> {return {
         ...x,
         userData:action.data.users.find(y=> y.id===x.user),
         issueData:action.data.issues.find(y=> y.id===x.issue),
