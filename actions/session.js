@@ -1,5 +1,5 @@
 import Immutable from 'immutable'
-import { SESSION_VIEW, SESSION_START, SESSION_START_COMPLETE, SESSION_DELETE, SESSION_UPDATE, SESSION_DELETE_COMPLETE, SESSION_SUBMIT_TIME, SESSION_SUBMIT_TIME_COMPLETE } from '../constants/ActionTypes'
+import { TIME_REPORT_RECIEVED, SESSION_START, SESSION_START_COMPLETE, SESSION_DELETE, SESSION_UPDATE, SESSION_DELETE_COMPLETE, SESSION_SUBMIT_TIME, SESSION_SUBMIT_TIME_COMPLETE } from '../constants/ActionTypes'
 import { routeActions, push } from 'react-router-redux'
 import Guid from 'guid'
 
@@ -37,10 +37,25 @@ function submitTimeCompleteAction (id) {
   return { type: SESSION_SUBMIT_TIME_COMPLETE, id}
 }
 
+function timeReport (data) {
+  return { type: TIME_REPORT_RECIEVED, data}
+}
+
 export function deleteSession (id) {
   return (dispatch, getState) => {
     dispatch(deleteSessionAction(id))
     getState().server.proxy.invoke('command', SessionCommand('Delete', id))
+  }
+}
+
+export function viewTimeReportBy () {
+  return (dispatch, getState) => {
+    console.log(getState().server.proxy)
+    getState().server.proxy.invoke('request', { resource:'USERS' })
+    .done((data) => {
+      console.table(data.Fields[0]);
+      dispatch(timeReport(data.Fields[0]))
+    })
   }
 }
 

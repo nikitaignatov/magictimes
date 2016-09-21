@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux'
 import server from './server'
 import sessionCreator from './sessionCreator'
-import sessions from './sessions'
 import reports from './reports'
 import notifications from './notifications'
 import { reducer as toastrReducer } from 'react-redux-toastr'
@@ -15,7 +14,6 @@ export default combineReducers({
   toastr: toastrReducer,
   server,
   sessionCreator,
-  sessions,
   reports,
   notifications
 })

@@ -6,10 +6,10 @@ import Today from '../components/reports/today'
 
 class SessionsContainer extends Component {
   render () {
-    const { today} = this.props
+    const { today,time_report} = this.props
     return (
     <div className="box">
-      <Today today={today} />
+      <Today today={today} time_report={time_report}/>
     </div>
     )
   }
@@ -19,6 +19,7 @@ function mapStateToProps (state) {
   console.log('asdasd', state)
   return {
     today: state.reports.today,
+    time_report: state.reports.time_report,
   }
 }
 
