@@ -1,22 +1,23 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
-import SessionList from '../components/sessions/SessionList'
-import SessionDashboard from '../components/sessions/SessionDashboard'
 import Today from '../components/reports/today'
+import { viewTimeReportBy } from '../actions/session'
 
-class SessionsContainer extends Component {
+class ReportsContainer extends Component {
+  
   render () {
-    const { today,time_report} = this.props
+    const { today,time_report,viewTimeReportBy} = this.props
+    console.log('--->',this.props)
+    // viewTimeReportBy((this.props.params.id||'users').toUpperCase())
     return (
     <div className="box">
-      <Today today={today} time_report={time_report}/>
+      <Today today={today} time_report={time_report} id={this.props.params.id} days={this.props.params.days}/>
     </div>
     )
   }
 }
 
 function mapStateToProps (state) {
-  console.log('asdasd', state)
   return {
     today: state.reports.today,
     time_report: state.reports.time_report,
@@ -25,5 +26,5 @@ function mapStateToProps (state) {
 
 export default connect(
   mapStateToProps,
-  null
-)(SessionsContainer)
+  {viewTimeReportBy}
+)(ReportsContainer)

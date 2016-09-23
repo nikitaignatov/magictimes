@@ -10,9 +10,8 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case SERVER_CONNECTED:
-      return {...state, ...{
-          proxy: action.proxy
-        }
+      return {
+          proxy: action.proxy        
       }
   }
   return state

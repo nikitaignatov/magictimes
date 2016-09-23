@@ -2,11 +2,17 @@
 import { connect } from 'react-redux'
 import { go } from '../../actions/server'
 
+import { viewTimeReportBy } from '../../actions/session'
 
 export class SideBar extends Component {
   render() {
 
-      const page =page=> (e) => {e.preventDefault(); this.props.go(page)}
+    const page =(view)=> (e) => {
+        e.preventDefault(); 
+        const days= 7;
+        this.props.viewTimeReportBy((view||'users').toUpperCase(),days);
+        this.props.go(`/reports/view/${view}/${days}`);
+    }
     return (
       <aside className="main-sidebar">
           <section className="sidebar">
@@ -30,12 +36,11 @@ export class SideBar extends Component {
                   </div>
               </form>
               <ul className="sidebar-menu">
-                  <li className="header">TURBO NAVIGATION</li>
-                  <li><a href="#" onClick={page('/dashboard/')}><i className="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-                  <li><a href="#" onClick={page('/sessions/')}><i className="fa fa-list"></i> <span>Sessions</span></a></li>
-                  <li><a href="#" onClick={page('/reports/')}><i className="fa fa-list"></i> <span>Reports</span></a></li>
-                  <li><a href="#" onClick={page('/working-hours/')}><i className="fa fa-hourglass-half"></i> <span>Working hours</span></a></li>
-                  <li><a href="#" onClick={page('/settings/')}><i className="fa fa-cog"></i> <span>Settings</span></a></li>
+                  <li className="header">REPORTS</li>
+                  <li><a href="#" onClick={page('users')}><i className="fa fa-user"></i> <span>Users</span></a></li>
+                  <li><a href="#" onClick={page('projects')}><i className="fa fa-list"></i> <span>Projects</span></a></li>
+                  <li><a href="#" onClick={page('issues')}><i className="fa fa-money"></i> <span>Issues</span></a></li>
+                  <li><a href="#" onClick={page('months')}><i className="fa fa-calendar"></i> <span>Month</span></a></li>
               </ul>
           </section>
       </aside>
@@ -45,5 +50,5 @@ export class SideBar extends Component {
 
 export default connect(
   null,
-  {go}
+  {go,viewTimeReportBy}
 )(SideBar)
