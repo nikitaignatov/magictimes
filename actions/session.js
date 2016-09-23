@@ -48,10 +48,10 @@ export function deleteSession (id) {
   }
 }
 
-export function viewTimeReportBy () {
+export function viewTimeReportBy (type,days) {
   return (dispatch, getState) => {
     console.log(getState().server.proxy)
-    getState().server.proxy.invoke('request', { resource:'USERS' })
+    getState().server.proxy.invoke('request', { resource:type,days:days })
     .done((data) => {
       console.table(data.Fields[0]);
       dispatch(timeReport(data.Fields[0]))
