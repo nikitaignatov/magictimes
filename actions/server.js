@@ -29,6 +29,5 @@ export function serverConnectionFailed(error) {
 }
 
 export function go(page) {
-  console.log('GOTO:',page)
   return (dispatch, getState) => {dispatch(push(page))}  
 }
