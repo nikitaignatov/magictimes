@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
+
 class BasicTable extends Component {
   render () {
     const { report } = this.props
@@ -19,33 +20,37 @@ class BasicTable extends Component {
       }
     }
 
-    return (     
-        <table className="table table-bordered table-hover">
-          <thead>
-            <tr>
-              <th>
-                key
+    const celltitle = (row) => {
+      return row.description + '\n\nExplanation:\n' + row.indicator.explanation + '\n\nSuggestion:\n' + row.indicator.suggestion
+    }
+    
+    return (  
+      <table className="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>
+              key
+            </th>
+            {rows.map((column) => 
+              <th key={column}>
+                {column.replace(/_/gi," ")}
               </th>
-              {rows.map((column) => 
-                <th key={column}>
-                  {column.replace(/_/gi," ")}
-                </th>
+            )}
+          </tr>
+        </thead>
+        <tbody>        
+            {report.map((col,ri)=>                                  
+            <tr key={'c' + ri}>
+              <th>{col.key}</th>
+              {col.rows.map((row,i) =>  
+              <td className={severityColor(row.indicator.severity)} title={celltitle(row)}  data-toggle="modal" data-target={ '#modal'+ri }>
+              {view(row.value)}                 
+              </td>
               )}
             </tr>
-          </thead>
-          <tbody>        
-              {report.map((col,ri)=>                       
-              <tr key={'c' + ri}>
-                <th>{col.key}</th>
-                {col.rows.map((row,i) =>  
-                <td className={severityColor(row.indicator.severity)} title={row.description}>
-                {view(row.value)} 
-                </td>
-                )}
-              </tr>
-            )}
-          </tbody>
-        </table>   
+          )}
+        </tbody>
+      </table>  
     )
   }
 }
