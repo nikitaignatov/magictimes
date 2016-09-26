@@ -2,11 +2,12 @@
 import { modeled } from 'react-redux-form'
 
 
-const initialState = {today:[], time_report:[]}
+const initialState = {today:[], time_report:[], data:{}}
 const m = (state = initialState , action) => {
   switch (action.type) {
-    case RECIEVE_UPDATE: return { today:[], time_report:[]}
-    case TIME_REPORT_RECIEVED: return { time_report: action.data, today:[]}
+    // case RECIEVE_UPDATE: return { today:[], time_report:[]}
+    case RECIEVE_UPDATE: return { data:action.data,today:[], time_report:[]}
+    case TIME_REPORT_RECIEVED: return { data:state.data, time_report: action.data, today:[]}
     default: return state
   }
 }

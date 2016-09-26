@@ -1,12 +1,26 @@
 import React, { Component } from 'react'
-﻿import Layout from '../components/layout/Layout'
+import Layout from '../components/layout/Layout'
+import { connect } from 'react-redux'
 
-export default class App extends Component {
+class App extends Component {
   render() {
     return (
-      <Layout>
+      <Layout data={this.props.data}>
         {this.props.children}
       </Layout>
     )
   }
 }
+
+
+function mapStateToProps (state) {
+  return {
+    data: state.reports.data,
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  {}
+)(App)
+

@@ -6,7 +6,7 @@ import { viewTimeReportBy } from '../../actions/session'
 
 export class SideBar extends Component {
   render() {
-
+      const {users}=this.props
     const page =(view)=> (e) => {
         e.preventDefault(); 
         const days= 7;
@@ -41,6 +41,21 @@ export class SideBar extends Component {
                   <li><a href="#" onClick={page('projects')}><i className="fa fa-list"></i> <span>Projects</span></a></li>
                   <li><a href="#" onClick={page('issues')}><i className="fa fa-money"></i> <span>Issues</span></a></li>
                   <li><a href="#" onClick={page('months')}><i className="fa fa-calendar"></i> <span>Month</span></a></li>
+                  <li className="treeview active">
+                        <a href="#">
+                            <i className="fa fa-users"></i>
+                            <span>Users</span>
+                            <span className="pull-right-container">
+                            <i className="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul className="treeview-menu menu-open">
+                        {users.map(user=>
+                        
+                            <li><a href={'/reports/view/user/' +user.username}><i className="fa fa-user"></i> {user.fullName}</a></li>
+                        )}
+                        </ul>
+                    </li>
               </ul>
           </section>
       </aside>

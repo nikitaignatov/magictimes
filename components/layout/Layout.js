@@ -6,9 +6,10 @@ import SideBar from './SideBar'
 
 import ReduxToastr, {toastr} from 'react-redux-toastr'
 
-export default class Layout extends Component {
+class Layout extends Component {
   render() {
     const { notification , prompt} = this.props.notifications
+    const {data } = this.props
     if(notification && notification.kind){
       let call = notification.kind.Case.toLowerCase()
       const options= {
@@ -49,7 +50,7 @@ export default class Layout extends Component {
       <div className="wrapper">
         <ReduxToastr />
         <Header />
-        <SideBar />
+        <SideBar users={data.users} />
         <div className="content-wrapper">
           <div className="content">
             {this.props.children}
