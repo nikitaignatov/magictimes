@@ -13,6 +13,10 @@ export class SideBar extends Component {
         this.props.viewTimeReportBy((view||'users').toUpperCase(),days);
         this.props.go(`/reports/view/${view}/${days}`);
     }
+    const profile =(view)=> (e) => {
+        e.preventDefault(); 
+        this.props.go(`/user/${view}`);
+    }
     return (
       <aside className="main-sidebar">
           <section className="sidebar">
@@ -50,9 +54,8 @@ export class SideBar extends Component {
                             </span>
                         </a>
                         <ul className="treeview-menu menu-open">
-                        {users.map(user=>
-                        
-                            <li><a href={'/reports/view/user/' +user.username}><i className="fa fa-user"></i> {user.fullName}</a></li>
+                        {users.map(user=>                        
+                            <li><a href="#" onClick={profile(user.username)}><i className="fa fa-user"></i> {user.fullName}</a></li>
                         )}
                         </ul>
                     </li>

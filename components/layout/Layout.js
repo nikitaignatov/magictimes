@@ -67,7 +67,7 @@ class Layout extends Component {
 function mapStateToProps(state) {
   return {
     notifications: state.notifications,
-    users: state.users
+    data: state.reports.data
   }
 }
 
