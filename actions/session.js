@@ -17,7 +17,7 @@ export const startSessionAction = (comment) => {
   return { type: SESSION_START, comment}
 }
 
-export function viewSessionAction (id,data) {
+export function viewSessionAction (id, data) {
   return { type: SESSION_VIEW, id, data}
 }
 
@@ -48,59 +48,17 @@ export function deleteSession (id) {
   }
 }
 
-export function viewTimeReportBy (type,days) {
+export function viewTimeReportBy (type, days) {
   return (dispatch, getState) => {
     console.log(getState().server.proxy)
-    getState().server.proxy.invoke('request', { resource:type,days:days })
-    .done((data) => {
-      console.table(data.Fields[0]);
-      dispatch(timeReport(data.Fields[0]))
-    })
+    getState().server.proxy.invoke('request', { resource: type,days: days })
+      .done((data) => {
+        console.table(data.Fields[0])
+        dispatch(timeReport(data.Fields[0]))
+      })
   }
 }
 
-export function startSession (data) {
-  return (dispatch, getState) => {
-    dispatch(startSessionAction(data.log))
-    let uid = Guid.raw()
-    getState().server.proxy.invoke('command', SessionCommand('Create', uid, uid, data.log))
-  }
-}
-
-export function viewSession (id) {
-  return (dispatch, getState) => {
-    dispatch(push('/sessions/' + id))
-    var data = getState().sessions.find(x => x.id == id)
-    dispatch(viewSessionAction(id,data))
-  }
-}
-
-export function deleteSessionComplete (id) {
-  return (dispatch, getState) => {
-    toastr.success('SESSION DELETED', id)
-    dispatch(deleteSessionCompleteAction(id))
-  }
-}
-
-export function updateSession (data) {
-  return (dispatch, getState) => {
-    dispatch({ type: SESSION_UPDATE, data})
-    getState().server.proxy
-      .invoke('command', SessionCommand('Comment', data.id, data.message))
-      .done((e) => toastr.success('Session was updated'))
-  }
-}
-
-export function submitTime (id, who, createSubTicket) {
-  return (dispatch, getState) => {
-    dispatch(submitTimeAction({id,who,createSubTicket}))
-    getState().server.proxy.invoke('submitTimeEntry', {Input: {Session: id,SubmitFor: who, CreateNewTicket: createSubTicket}})
-  }
-}
-
-export function submitTimeComplete (id) {
-  return (dispatch, getState) => {
-    toastr.success('Session was submitted to Gemini')
-    dispatch(submitTimeCompleteAction(id))
-  }
+export function periodChanged (start, end) {
+  return (dispatch, getState) => dispatch({type: 'PERIOD_CHANGED',data: {start: start,end: end}})
 }

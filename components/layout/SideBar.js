@@ -6,16 +6,16 @@ import { viewTimeReportBy } from '../../actions/session'
 
 export class SideBar extends Component {
   render() {
-      const {users}=this.props
+    const {users,period}=this.props
     const page =(view)=> (e) => {
         e.preventDefault(); 
         const days= 7;
         this.props.viewTimeReportBy((view||'users').toUpperCase(),days);
-        this.props.go(`/reports/view/${view}/${days}`);
+        this.props.go(`/period/${period.start}/${period.end}/reports/view/${view}/${days}`);
     }
     const profile =(view)=> (e) => {
         e.preventDefault(); 
-        this.props.go(`/user/${view}`);
+        this.props.go(`/period/${period.start}/${period.end}/user/${view}`);
     }
     return (
       <aside className="main-sidebar">
@@ -66,7 +66,13 @@ export class SideBar extends Component {
   }
 }
 
+function mapStateToProps (state) {
+  return {
+    period: state.server.period,
+  }
+}
+
 export default connect(
-  null,
+  mapStateToProps,
   {go,viewTimeReportBy}
 )(SideBar)
