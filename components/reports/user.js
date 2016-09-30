@@ -5,15 +5,17 @@ import BasicTable from './BasicTable'
 import { viewTimeReportBy } from '../../actions/session'
 import moment from 'moment'
 
-class User extends Component {
-  render () {
-    const { user, data } = this.props
-    const timelog = (entry, p) => {
-      return <li key={entry.id}>
+
+class TimeLog extends Component {
+  render () 
+  {    
+    const { user, data, entry } = this.props
+    return (
+      <li key={entry.id}>
         <i className="fa fa-clock-o"></i>
         <div className="timeline-item">
           <span className="time"><i className="fa fa-clock-o"></i> {moment(entry.startTime, moment.ISO_8601).format('HH:mm')}</span>
-          <h3 className="timeline-header"><a href="/" target="_blank">{p.projectsById[entry.project].code}-{entry.issue}</a> {p.issuesById[entry.issue].name}</h3>
+          <h3 className="timeline-header"><a href="/" target="_blank">{data.projectsById[entry.project].code}-{entry.issue}</a> {data.issuesById[entry.issue].name}</h3>
           <div className="timeline-body pre">
             <strong>{entry.log}</strong>
           </div>
@@ -23,9 +25,16 @@ class User extends Component {
           </div>
         </div>
       </li>
-    }
-    const commit = (entry, p) => {
-      return <li key={entry.revision}>
+      )
+  }
+}
+
+class Commit extends Component {
+  render () 
+  {
+    const { user, data, entry } = this.props
+    return (
+      <li key={entry.revision}>
         <i className="fa fa-check-square bg-blue"></i>
         <div className="timeline-item">
           <span className="time"><i className="fa fa-clock-o"></i> {moment(entry.date, moment.ISO_8601).format('HH:mm')}</span>
@@ -40,7 +49,14 @@ class User extends Component {
           </div>
         </div>
       </li>
-    }
+      )
+  }
+}
+
+class User extends Component {
+  render () {
+    const { user, data } = this.props
+    
     const timeline = () => {
     if(data.timeline && user && data.timeline[user.id]){ return  data.timeline[user.id].map(x => timelineitem(x, data))}    
     }
@@ -50,8 +66,8 @@ class User extends Component {
               </li>,
         entry.Item2.map(entry => {
           switch (entry.Case){
-            case 'Commit' : return commit(entry.Fields[0], p)
-            case 'TimeLog': return timelog(entry.Fields[0], p)
+            case 'Commit' : return <Commit entry={entry.Fields[0]} data={ p} user ={user} />
+            case 'TimeLog': return <TimeLog entry={entry.Fields[0]} data={ p} user ={user} />
           }
         })]
     }
