@@ -2,7 +2,7 @@ import { SERVER_ERROR_LOG, SERVER_CONNECTED, SERVER_DISCONNECTED, SERVER_CONNECT
 
 const initialState = {
   proxy: {},
-  period: {}
+  period: {start:'2016-01-01',end:'2016-12-31'}
 }
 
 export default (state = initialState , action) => {

@@ -55,7 +55,7 @@ export class SideBar extends Component {
                         </a>
                         <ul className="treeview-menu menu-open">
                         {users.map(user=>                        
-                            <li><a href="#" onClick={profile(user.username)}><i className="fa fa-user"></i> {user.fullName}</a></li>
+                            <li key={user.id}><a href="#" onClick={profile(user.username)}><i className="fa fa-user"></i> {user.fullName}</a></li>
                         )}
                         </ul>
                     </li>
