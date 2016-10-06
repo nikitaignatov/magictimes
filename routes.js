@@ -9,7 +9,7 @@ export default history => (
     <Route path="/period/:period_start/:period_end/" component={App}>
       <IndexRoute component={ReportsContainer} />
       <Route path="reports" component={ReportsContainer} >
-        <Route path="view/:id/:days" component={ReportsContainer} />      
+        <Route path="view/:id/" component={ReportsContainer} />      
       </Route>
       <Route path="user" component={UserContainer} >
         <Route path=":id" component={UserContainer} />      

@@ -9,9 +9,8 @@ export class SideBar extends Component {
     const {users,period}=this.props
     const page =(view)=> (e) => {
         e.preventDefault(); 
-        const days= 7;
-        this.props.viewTimeReportBy((view||'users').toUpperCase(),days);
-        this.props.go(`/period/${period.start}/${period.end}/reports/view/${view}/${days}`);
+        this.props.viewTimeReportBy((view||'users').toUpperCase());
+        this.props.go(`/period/${period.start}/${period.end}/reports/view/${view}/`);
     }
     const profile =(view)=> (e) => {
         e.preventDefault(); 

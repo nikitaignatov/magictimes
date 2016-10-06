@@ -5,12 +5,11 @@ import { connect } from 'react-redux'
 
 class App extends Component {
   render () {
-    const {periodChanged} = this.props
+    const {periodChanged,period} = this.props
     const {period_start, period_end} = this.props.params
-    console.log('LE_PERIOD', period_start, period_end)
-    periodChanged(period_start, period_end)
+    //periodChanged(period_start, period_end)
     return (
-    <Layout data={this.props.data}>
+    <Layout data={this.props.data} period={period}>
       {this.props.children}
     </Layout>
     )
@@ -19,6 +18,7 @@ class App extends Component {
 
 function mapStateToProps (state) {
   return {
+    period: state.server.period,
     data: state.reports.data,
   }
 }

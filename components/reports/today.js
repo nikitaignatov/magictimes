@@ -6,26 +6,17 @@ import { viewTimeReportBy } from '../../actions/session'
 
 class Today extends Component {
   render () {
-    const { today, time_report ,id,days } = this.props
-    const daysOptions = [7,14,30,60,90,180,365]
-    const page = (page,days) => (e) => {
+    const { today, time_report ,id,period } = this.props
+    const page = (page) => (e) => {
       e.preventDefault()
-      this.props.go(`${page}/${days}`)
-      this.props.viewTimeReportBy((id || 'users').toUpperCase(),days)
+      this.props.go(`${page}`)
+      this.props.viewTimeReportBy((id || 'users').toUpperCase(),period)
     }
 
     return (
       <div>
-        <div className="nav-tabs-custom">
-          <ul className="nav nav-tabs">
-            <li className={days==1?'active':''}><a href="#" onClick={page(`/reports/view/${id}`,1)} data-toggle="tab">Today</a></li>
-            {daysOptions.map(day=>
-              <li key={id+day} className={days==day?'active':''}><a href="#" onClick={page(`/reports/view/${id}`,day)} data-toggle="tab">{day} days</a></li>  
-            )}
-          </ul>
-        </div>
         <div className="box-header">
-          <h3>Stats for last {days} days, grouped by {id}</h3><br/>
+          <h3>Stats for <strong className="bg-warning">[{period.start} / {period.end}]</strong> grouped by <strong className="bg-warning">[{id}]</strong></h3><br/>
         </div>
         <BasicTable report={time_report} />    
       </div>
