@@ -34,11 +34,11 @@ class Commit extends Component {
       <div className="timeline-item">
         <span className="time"><i className="fa fa-clock-o"></i> {moment(entry.date, moment.ISO_8601).format('HH:mm')}</span>
         <h3 className="timeline-header">
-          <span className="label label-default">{entry.repo}</span>
+          <span className="label label-primary">{entry.repo}</span>
           <span>&nbsp;</span>
-          <span className="label label-default">{entry.branch}</span>
+          <span className="label label-info">{entry.branch}</span>
           <span>&nbsp;</span>
-          {entry.issues.map(issue => [<a href="/" target="_blank" key={'link'+issue}><span className="label label-primary">GEM:{issue}</span></a>,<span>&nbsp;</span>])}
+          {entry.issues.map(issue => [<a href="/" target="_blank" key={'link'+issue}><span className="label label-default">GEM:{issue}</span></a>,<span>&nbsp;</span>])}
         </h3>
         <div className="timeline-body pre">
           <strong>{entry.message}</strong>
