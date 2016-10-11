@@ -22,18 +22,14 @@ class User extends Component {
               Software Engineer
             </p>
             <ul className="list-group list-group-unbordered">
-              <li className="list-group-item">
-                <b>Commits</b> <a className="pull-right">{data.commitsByUsername[user.username]}</a>
-              </li>
-              <li className="list-group-item">
-                <b>Merges</b> <a className="pull-right">{data.mergesByUsername[user.username]}</a>
-              </li>
-              <li className="list-group-item">
-                <b>Fixes</b> <a className="pull-right">{data.fixesByUsername[user.username]}</a>
-              </li>
-              <li className="list-group-item">
-                <b>Reverts</b> <a className="pull-right">{data.revertsByUsername[user.username]}</a>
-              </li>
+              {user.metrics.map(metric => {
+                 return <li className="list-group-item">
+                          <b>{metric.name}</b>
+                          <a className="pull-right">
+                            {metric.value.Fields[0]}
+                          </a>
+                        </li>
+               })}
             </ul>
           </div>
         </div>
