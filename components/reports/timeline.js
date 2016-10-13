@@ -92,38 +92,17 @@ class Timeline extends Component {
     }
     return (
     <ul className="timeline">
-      <li className="time-label">
-        <span className="bg-red">{user.fullName}: recent activity</span>
-      </li>
       <li>
-        <i className="fa fa-envelope bg-blue"></i>
+        <i className="fa fa-bar-chart bg-green"></i>
         <div className="timeline-item">
           <span className="time"><i className="fa fa-clock-o"></i> 12:05</span>
-          <h3 className="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+          <h3 className="timeline-header">Time logged during last 100 days</h3>
           <div className="timeline-body">
-            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning heekya handango imeem plugg dopplr jibjab, movity jajah plickers sifteo edmodo ifttt
-            zimbra. Babblely odeo kaboodle quora plaxo ideeli hulu weebly balihoo...
-          </div>
-          <div className="timeline-footer">
-            <a className="btn btn-primary btn-xs">Read more</a>
-            <a className="btn btn-danger btn-xs">Delete</a>
+          {this.props.children}
           </div>
         </div>
       </li>
-      {timeline()}
-      <li>
-        <i className="fa fa-comments bg-yellow"></i>
-        <div className="timeline-item">
-          <span className="time"><i className="fa fa-clock-o"></i> 27 mins ago</span>
-          <h3 className="timeline-header"><a href="#">Jay White</a> commented on your post</h3>
-          <div className="timeline-body">
-            Take me to your leader! Switzerland is small and neutral! We are more like Germany, ambitious and misunderstood!
-          </div>
-          <div className="timeline-footer">
-            <a className="btn btn-warning btn-flat btn-xs">View comment</a>
-          </div>
-        </div>
-      </li>
+      {timeline()}      
       <li>
         <i className="fa fa-clock-o bg-black"></i>
       </li>
