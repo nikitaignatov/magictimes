@@ -5,6 +5,34 @@ import BasicTable from './BasicTable'
 import { viewTimeReportBy } from '../../actions/session'
 import moment from 'moment'
 import Timeline from './timeline'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, ReferenceLine, ResponsiveContainer } from 'recharts'
+
+class TinyBarChart extends Component {
+  render () {
+    var {data} = this.props
+    const style = {
+      top: 0,
+      left: 350,
+      lineHeight: '24px'
+    }
+    
+    return (
+
+    <ResponsiveContainer height={100}>
+      <BarChart data={data}>
+        <XAxis hide={true} dataKey="day" />
+        <ReferenceLine
+          y={8}
+          label="Max"
+          stroke="red"
+          strokeDasharray="3 3" />
+        <Tooltip/>
+        <Bar dataKey="hours" fill="#82ca9d" />
+      </BarChart>
+    </ResponsiveContainer>
+    )
+  }
+}
 
 class User extends Component {
   render () {
@@ -12,7 +40,9 @@ class User extends Component {
     return (
     <div className="row">
       <div className="col-md-9">
-        <Timeline user={user} data={data} />
+        <Timeline user={user} data={data}>
+          <TinyBarChart data={user.hours} />
+        </Timeline>
       </div>
       <div className="col-md-3">
         <div className="box box-primary">
