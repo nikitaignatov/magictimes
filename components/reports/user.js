@@ -15,14 +15,14 @@ class TinyBarChart extends Component {
       left: 350,
       lineHeight: '24px'
     }
-    
+
     return (
 
     <ResponsiveContainer height={100}>
       <BarChart data={data}>
         <XAxis hide={true} dataKey="day" />
         <ReferenceLine
-          y={8}
+          y={7.5}
           label="Max"
           stroke="red"
           strokeDasharray="3 3" />
@@ -30,6 +30,20 @@ class TinyBarChart extends Component {
         <Bar dataKey="hours" fill="#82ca9d" />
       </BarChart>
     </ResponsiveContainer>
+    )
+  }
+}
+class MonthlyBarChart extends Component {
+  render () {
+    var {data} = this.props
+    return (
+      <ResponsiveContainer height={50}>
+        <BarChart data={data}>
+          <XAxis hide={true} dataKey="month" />
+          <Tooltip/>
+          <Bar dataKey="value" fill="#82ca9d" />
+        </BarChart>
+      </ResponsiveContainer>
     )
   }
 }
@@ -58,6 +72,7 @@ class User extends Component {
                           <a className="pull-right">
                             {metric.value.Fields[0]}
                           </a>
+                          <MonthlyBarChart data={metric.monthly} />
                         </li>
                })}
             </ul>

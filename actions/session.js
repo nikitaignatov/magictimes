@@ -22,7 +22,7 @@ export function viewTimeReportBy (type, days) {
     const {start, end} = getState().server.period
     getState().server.proxy.invoke('request', { resource: type, period: { Item1: start, Item2: end } })
       .done((data) => {
-        dispatch(timeReport(data.Item1.Fields[0]))
+        dispatch(timeReport(data.Fields[0]))
       })
   }
 }
@@ -35,7 +35,6 @@ export function periodChanged (start, end) {
         return
       } else {
         dispatch({type: 'PERIOD_CHANGED',data: {start: start,end: end}})
-
         getState().server.proxy.invoke('request', { resource: 'CHANGE_PERIOD', period: { Item1: start, Item2: end } })
       }
     }
