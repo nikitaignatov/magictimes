@@ -8,7 +8,7 @@ class UserContainer extends Component {
   render () {
     const { data } = this.props
     const { id } = this.props.params
-    const user = data.users.find(x => x.username == id) || {}
+    const user = data.users.find(x => x.username == id) || {metrics:[]}
     return (
     <div>
       <User user={user} data={data} id={this.props.params.id} />
