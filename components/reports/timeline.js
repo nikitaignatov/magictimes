@@ -95,8 +95,7 @@ class Timeline extends Component {
       <li>
         <i className="fa fa-bar-chart bg-green"></i>
         <div className="timeline-item">
-          <span className="time"><i className="fa fa-clock-o"></i> 12:05</span>
-          <h3 className="timeline-header">Time logged during last 100 days</h3>
+          <h3 className="timeline-header">Time logged by day</h3>
           <div className="timeline-body">
           {this.props.children}
           </div>

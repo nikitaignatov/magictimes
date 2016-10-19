@@ -5,7 +5,7 @@ import BasicTable from './BasicTable'
 import { viewTimeReportBy } from '../../actions/session'
 import moment from 'moment'
 import Timeline from './timeline'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart, Line, ReferenceLine, ResponsiveContainer } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, LineChart,Area, Line, ReferenceLine, ResponsiveContainer,ComposedChart } from 'recharts'
 
 class TinyBarChart extends Component {
   render () {
@@ -37,12 +37,13 @@ class MonthlyBarChart extends Component {
   render () {
     var {data} = this.props
     return (
-      <ResponsiveContainer height={50}>
-        <BarChart data={data}>
+      <ResponsiveContainer height={80}>
+        <ComposedChart data={data}>
           <XAxis hide={true} dataKey="month" />
-          <Tooltip/>
-          <Bar dataKey="value" fill="#82ca9d" />
-        </BarChart>
+          <Tooltip />
+          <Bar dataKey="count" fill="#82ca9d" />
+          
+        </ComposedChart>
       </ResponsiveContainer>
     )
   }

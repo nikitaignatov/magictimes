@@ -40,6 +40,10 @@ export class SideBar extends Component {
               </form>
               <ul className="sidebar-menu">
                   <li className="header">REPORTS</li>
+                  <li><a href="#" onClick={page('svn_users')}><i className="fa fa-upload"></i> <span>Commits</span></a></li>
+                  <li><a href="#" onClick={page('svn_repo')}><i className="fa fa-inbox"></i> <span>Repo</span></a></li>
+                  <li><a href="#" onClick={page('svn_branch')}><i className="fa fa-code-fork"></i> <span>Branch</span></a></li>
+                  <li><a href="#" onClick={page('svn_month')}><i className="fa fa-calendar"></i> <span>Month</span></a></li>
                   <li><a href="#" onClick={page('users')}><i className="fa fa-user"></i> <span>Users</span></a></li>
                   <li><a href="#" onClick={page('projects')}><i className="fa fa-list"></i> <span>Projects</span></a></li>
                   <li><a href="#" onClick={page('issues')}><i className="fa fa-money"></i> <span>Issues</span></a></li>
